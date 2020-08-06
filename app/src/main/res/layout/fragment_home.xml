@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorBackgroundPrimary"
+    tools:context=".ui.drawer.home.HomeFragment"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <ProgressBar
+            android:id="@+id/ping_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circular_progress_bar_background"
+            android:max="100"
+            android:min="0"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:visibility="visible"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            app:elevation="0dp"
+            android:id="@+id/ping_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="50dp"
+            android:layout_gravity="center"
+            android:visibility="visible">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10pt"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_person_pin_192"/>
+
+
+    </FrameLayout>
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/ping_button"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:src="@drawable/ic_add_circle_black_64dp"-->
+<!--        android:layout_margin="16dp"-->
+<!--        />-->
+
+</FrameLayout>

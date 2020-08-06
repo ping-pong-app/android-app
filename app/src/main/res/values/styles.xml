@@ -1,0 +1,75 @@
+<resources>
+
+    <!-- Login theme -->
+    <style name="LoginTheme" parent="FirebaseUI">
+
+        <!-- Hide unnecessary action bar -->
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- Required for sign-in flow styling -->
+        <item name="colorPrimary">@color/colorGrayDark</item>
+        <item name="colorPrimaryDark">@color/colorGrayDark</item>
+        <item name="colorAccent">@color/colorBlue</item>
+        <item name="colorTextPrimary">@color/colorWhite</item>
+
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:editTextColor">@color/colorWhite</item>
+
+        <item name="colorControlNormal">@color/colorGrayLight</item>
+        <item name="colorControlActivated">@color/colorGrayLight</item>
+        <item name="colorControlHighlight">@color/colorBlueLight</item>
+        <item name="android:windowBackground">@color/colorGrayDark</item>
+    </style>
+
+    <!-- Base theme (No action bar) -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- Base colors -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryLight">@color/colorPrimaryLight</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+
+        <!-- Basic colors -->
+        <item name="colorWhite">@color/colorWhite</item>
+        <item name="colorBlack">@color/colorBlack</item>
+        <item name="colorTransparent">@color/colorTransparent</item>
+
+        <!-- Text colors -->
+        <item name="colorTextPrimary">@color/colorWhite</item>
+        <item name="colorTextSecondary">@color/colorGrayLight</item>
+
+        <!-- General background colors -->
+        <item name="colorBackgroundPrimary">@color/colorGray</item>
+        <item name="colorBackgroundSecondary">@color/colorGray</item>
+
+
+        <!-- Ping button colors -->
+        <item name="colorPingButtonProgressBar">@color/colorGreen</item>
+        <item name="colorPingButtonProgressBarBackground">@color/colorTransparent</item>
+
+        <!-- Toolbar colors -->
+        <item name="colorToolbarBackground">@color/colorGray</item>
+
+        <!-- Navigation (sidebar) colors -->
+        <item name="colorNavigationHeaderBackground">@color/colorBlue</item>
+        <item name="colorNavigationItemState">@color/menu_item_color_state</item> <!-- Not actual color: Change colors "...Item" and "...ItemSelected"-->
+        <item name="colorNavigationItem">@color/colorWhite</item>
+        <item name="colorNavigationItemSelected">@color/colorBlueLight</item>
+        <item name="colorNavigationItemSelectedBackground">@color/colorNavigationItemSelectedBackground</item>
+        <item name="colorNavigationItemDrawableBackground">@drawable/menu_background_color_state</item>
+
+    </style>
+
+    <!-- Drawer layout style -->
+    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
+        <item name="itemIconTint">?attr/colorNavigationItemState</item>
+        <item name="itemTextColor">?attr/colorNavigationItemState</item>
+        <item name="itemBackground">?attr/colorNavigationItemDrawableBackground</item>
+    </style>
+
+</resources>

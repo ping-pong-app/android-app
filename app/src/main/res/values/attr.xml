@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="colorPrimaryLight" format="color"/>
+
+    <!-- Text colors -->
+    <attr name="colorTextPrimary" format="color"/>
+    <attr name="colorTextSecondary" format="color"/>
+
+    <!-- Background colors -->
+    <attr name="colorBackgroundPrimary" format="color"/>
+    <attr name="colorBackgroundSecondary" format="color"/>
+
+    <!-- Basic colors -->
+    <attr name="colorWhite" format="color"/>
+    <attr name="colorBlack" format="color"/>
+    <attr name="colorTransparent" format="color"/>
+
+    <!-- Ping button colors -->
+    <attr name="colorPingButtonProgressBar" format="color"/>
+    <attr name="colorPingButtonProgressBarBackground" format="color"/>
+
+    <!-- Toolbar colors -->
+    <attr name="colorToolbarBackground" format="color"/>
+
+    <!-- Navigation attributes -->
+    <attr name="colorNavigationHeaderBackground" format="color"/>
+    <attr name="colorNavigationItem" format="color" />
+    <attr name="colorNavigationItemSelected" format="color" />
+    <attr name="colorNavigationItemSelectedBackground" format="color" />
+    <attr name="colorNavigationItemState" format="color"/>
+    <attr name="colorNavigationItemDrawableBackground" format="reference" />
+
+</resources>

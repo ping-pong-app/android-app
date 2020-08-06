@@ -1,0 +1,11 @@
+{
+  "client_id": "ping-android",
+  "redirect_uri": "si.rozna.ping:/oauth2redirect",
+  "authorization_scope": "openid email profile",
+  "discovery_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/.well-known/openid-configuration",
+  "authorization_endpoint_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/protocol/openid-connect/auth",
+  "token_endpoint_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/protocol/openid-connect/token",
+  "registration_endpoint_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/clients-registrations/openid-connect",
+  "user_info_endpoint_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/protocol/openid-connect/userinfo",
+  "https_required": true
+}

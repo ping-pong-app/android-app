@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default colors -->
+    <color name="colorPrimary">#333333</color>
+    <color name="colorSecondary">#50AA3E</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryLight">#505050</color>
+    <color name="colorAccent">#3BA3DC</color>
+
+    <!-- Basic colors -->
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGreen">#50AA3E</color>
+    <color name="colorRed">#FF0000</color>
+    <color name="colorTransparent">#00000000</color>
+    <color name="colorDimmDark">#99000000</color>
+
+    <!-- Primary colors for application-->
+    <color name="colorGrayDark">#333333</color>
+    <color name="colorGray">#3C3F41</color>
+    <color name="colorGrayLight">#87939A</color>
+    <color name="colorBlueDark">#085973</color>
+    <color name="colorBlue">#3E869E</color>
+    <color name="colorBlueLight">#65BAD6</color>
+
+    <!-- Text colors -->
+    <color name="colorTextPrimary">#C1C1C1</color>
+    <color name="colorTextSecondary">#8E8E8E</color>
+
+    <!-- Background colors -->
+    <color name="colorBackgroundPrimary">#CCCBCB</color>
+    <color name="colorBackgroundSecondary">#FFFFFF</color>
+
+    <!-- Navigation colors -->
+    <color name="colorNavigationHeaderBackground">@color/colorPrimary</color>
+    <color name="colorNavigationItem">#635D5D</color>
+    <color name="colorNavigationItemSelected">@color/colorPrimary</color>
+    <color name="colorNavigationItemSelectedBackground">#00000000</color>
+    <!--#6650AA3E-->
+
+</resources>
