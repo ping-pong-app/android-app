@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.lang.ref.WeakReference;
 
 import si.rozna.ping.R;
-import si.rozna.ping.ui.drawer.home.components.PingButtonUIComponent;
+import si.rozna.ping.ui.components.PingButtonUIComponent;
 
 public class HomeFragment extends Fragment {
 

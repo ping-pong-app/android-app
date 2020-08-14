@@ -1,5 +1,9 @@
 package si.rozna.ping.auth;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,6 +31,12 @@ public class AuthService {
             }
             return Optional.empty();
         });
+    }
+
+    public static void logout(Context context){
+        AuthUI.getInstance()
+                .signOut(context)
+                .addOnCompleteListener(task -> context.startActivity(new Intent(context, LoginActivity.class)));
     }
 
 }

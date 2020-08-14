@@ -33,6 +33,7 @@ import java.util.Optional;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.auth.LoginActivity;
+import si.rozna.ping.ui.components.GeneralPopUpComponent;
 import si.rozna.ping.ui.drawer.groups.GroupsFragment;
 import si.rozna.ping.ui.drawer.groups.NewGroupFragment;
 import si.rozna.ping.ui.drawer.home.HomeFragment;
@@ -155,9 +156,12 @@ public class MainActivity extends AppCompatActivity {
             if(fragment instanceof NewGroupFragment){
                 switchFragment(this.prevFragment);
             }else {
-                showLogoutWarning(mDrawerLayout,
-                        LeaveAction.LEAVE_APPLICATION,
-                        getString(R.string.warning_leave_application));
+                new GeneralPopUpComponent(
+                        this,
+                        mDrawerLayout,
+                        GeneralPopUpComponent.Action.LEAVE_APPLICATION,
+                        getString(R.string.warning_leave_application)
+                ).show();
             }
         }
     }
@@ -193,9 +197,12 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new SettingsFragment();
                 break;
             case R.id.nav_logout:
-                showLogoutWarning(mDrawerLayout,
-                        LeaveAction.LOGOUT,
-                        getString(R.string.warning_logout));
+                new GeneralPopUpComponent(
+                        this,
+                        mDrawerLayout,
+                        GeneralPopUpComponent.Action.LOGOUT,
+                        getString(R.string.warning_logout)
+                ).show();
                 break;
             default:
                 fragment = new HomeFragment();
@@ -210,67 +217,6 @@ public class MainActivity extends AppCompatActivity {
     public void hideSoftKeyboard(){
         InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-    }
-
-    private void showLogoutWarning(View view, LeaveAction leaveAction, String message){
-        showLogoutWarning(view, leaveAction, message, null, null);
-    }
-
-    private void showLogoutWarning(View view, LeaveAction leaveAction, String message, String okBtnName, String cancelBtnName){
-
-        // Inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View popupView = inflater.inflate(R.layout.popup_general, null);
-
-
-        // Create the popup window
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                true);
-
-        // Set popup message
-        if(message != null) {
-            TextView info = popupView.findViewById(R.id.tv_popup_general_info);
-            info.setText(message);
-        }
-
-        // Dismiss the popup window when touched
-        Button cancelPopupBtn = popupView.findViewById(R.id.btn_popup_general_action_cancel);
-        cancelPopupBtn.setOnClickListener(view1 -> popupWindow.dismiss());
-        if(cancelBtnName != null)
-            cancelPopupBtn.setText(cancelBtnName);
-
-        // OK Button -> leave application but don't logout user
-        Button okPopupBtn = popupView.findViewById(R.id.btn_popup_general_action_ok);
-        okPopupBtn.setOnClickListener((view1) -> {
-            popupWindow.dismiss();
-            switch (leaveAction){
-                case LEAVE_APPLICATION:
-                    leaveApplication();
-                    break;
-                case LOGOUT:
-                    logout();
-                    break;
-            }
-        });
-        if(okBtnName != null)
-            okPopupBtn.setText(okBtnName);
-
-        // Show popup
-        // Which view you pass in doesn't matter, it is only used for the window token
-        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0);
-    }
-
-    private void logout(){
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(task -> startActivity(new Intent(getBaseContext(), LoginActivity.class)));
-    }
-
-    private void leaveApplication(){
-        finish();
     }
 
 }

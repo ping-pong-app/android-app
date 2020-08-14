@@ -86,7 +86,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 this.expandedGroupHolder = holder;
             } else {
                 // Closes currently pressed group
-//                TransitionManager.beginDelayedTransition(holder.tests, new AutoTransition());
                 holder.expendableView.setVisibility(View.GONE);
                 holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
             }

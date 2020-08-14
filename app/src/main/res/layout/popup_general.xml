@@ -43,23 +43,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-
-
-            <Button
-                android:id="@+id/btn_popup_general_action_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorTextPrimary"
-                android:background="@color/colorTransparent"
-                android:text="@string/no"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/btn_popup_general_action_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGreen"
+                android:layout_margin="15dp"
                 android:background="@color/colorTransparent"
-                android:text="@string/yes"/>
+                android:src="@drawable/ic_baseline_check_24"
+                android:tint="@color/colorGreen"/>
+
+            <ImageButton
+                android:id="@+id/btn_popup_general_action_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:background="@color/colorTransparent"
+                android:src="@drawable/ic_baseline_clear_24"
+                android:tint="@color/colorRed"
+                />
 
 
         </LinearLayout>

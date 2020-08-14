@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-
     private void logInFailed(IdpResponse response){
         if (response == null) {
             // User canceled login procedure

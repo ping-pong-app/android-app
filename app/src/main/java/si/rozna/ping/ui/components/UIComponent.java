@@ -1,4 +1,4 @@
-package si.rozna.ping.components;
+package si.rozna.ping.ui.components;
 
 import android.app.Activity;
 import android.view.View;

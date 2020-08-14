@@ -1,4 +1,4 @@
-package si.rozna.ping.ui.drawer.home.components;
+package si.rozna.ping.ui.components;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,9 +11,10 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import si.rozna.ping.R;
-import si.rozna.ping.components.UIComponent;
 
 public class PingButtonUIComponent extends UIComponent {
+
+    // TODO: Prevent multiple pings after button click
 
     private ProgressBar progressBar;
     private FloatingActionButton button;
