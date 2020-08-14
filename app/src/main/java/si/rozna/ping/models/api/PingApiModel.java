@@ -1,24 +1,25 @@
-package si.rozna.ping.models;
+package si.rozna.ping.models.api;
 
-public class Ping {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private String id;
+public class PingApiModel extends ApiModel {
 
+    @SerializedName("groupId")
+    @Expose
     private String groupId;
 
+    @SerializedName("pingerId")
+    @Expose
     private String pingerId;
 
+    @SerializedName("createdAt")
+    @Expose
     private String createdAt;
 
+    @SerializedName("updatedAt")
+    @Expose
     private String updatedAt;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getGroupId() {
         return groupId;

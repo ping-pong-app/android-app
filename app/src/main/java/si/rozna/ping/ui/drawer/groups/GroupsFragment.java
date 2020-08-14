@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,8 @@ import si.rozna.ping.R;
 import si.rozna.ping.adapter.RecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
+import si.rozna.ping.models.api.GroupApiModel;
+import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.MainActivity;
@@ -103,11 +106,16 @@ public class GroupsFragment extends Fragment {
             return;
         }
 
-        groupsApi.getAllGroups().enqueue(new Callback<List<Group>>() {
+        groupsApi.getAllGroups().enqueue(new Callback<List<GroupApiModel>>() {
             @Override
-            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+            public void onResponse(Call<List<GroupApiModel>> call, Response<List<GroupApiModel>> response) {
                 if(response.isSuccessful() && response.body() != null) {
-                    recyclerViewAdapter.setGroups(response.body());
+
+                    List<Group> groups = response.body().stream()
+                            .map(GroupMapper::fromApiModel)
+                            .collect(Collectors.toList());
+
+                    recyclerViewAdapter.setGroups(groups);
                     showContent();
                 }else {
                     Timber.e(response.message());
@@ -115,7 +123,7 @@ public class GroupsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Group>> call, Throwable t) {
+            public void onFailure(Call<List<GroupApiModel>> call, Throwable t) {
                 Timber.e(t);
             }
         });

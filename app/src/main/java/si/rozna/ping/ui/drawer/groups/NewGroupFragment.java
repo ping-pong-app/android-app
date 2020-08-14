@@ -24,8 +24,8 @@ import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
-import si.rozna.ping.models.EntityIdentifier;
-import si.rozna.ping.models.Group;
+import si.rozna.ping.models.api.EntityIdentifierApiModel;
+import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.MainActivity;
@@ -111,12 +111,12 @@ public class NewGroupFragment extends Fragment {
             return;
         }
 
-        Group group = new Group();
+        GroupApiModel group = new GroupApiModel();
         group.setName(groupName);
 
-        groupsApi.createGroup(group).enqueue(new Callback<EntityIdentifier>() {
+        groupsApi.createGroup(group).enqueue(new Callback<EntityIdentifierApiModel>() {
             @Override
-            public void onResponse(Call<EntityIdentifier> call, Response<EntityIdentifier> response) {
+            public void onResponse(Call<EntityIdentifierApiModel> call, Response<EntityIdentifierApiModel> response) {
                 if(response.isSuccessful()) {
 
                     ((MainActivity)getActivity()).hideSoftKeyboard();
@@ -131,7 +131,7 @@ public class NewGroupFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<EntityIdentifier> call, Throwable t) {
+            public void onFailure(Call<EntityIdentifierApiModel> call, Throwable t) {
                 Timber.e(t);
             }
         });

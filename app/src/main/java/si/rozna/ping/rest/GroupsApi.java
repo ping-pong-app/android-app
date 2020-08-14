@@ -8,19 +8,19 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import si.rozna.ping.models.EntityIdentifier;
-import si.rozna.ping.models.Group;
+import si.rozna.ping.models.api.EntityIdentifierApiModel;
+import si.rozna.ping.models.api.GroupApiModel;
 
 public interface GroupsApi {
 
     @GET("groups")
-    Call<List<Group>> getAllGroups();
+    Call<List<GroupApiModel>> getAllGroups();
 
     @GET("groups/{id}")
-    Call<Group> getGroupById(@Path("id") String id);
+    Call<GroupApiModel> getGroupById(@Path("id") String id);
 
     @POST("groups")
-    Call<EntityIdentifier> createGroup(@Body Group group);
+    Call<EntityIdentifierApiModel> createGroup(@Body GroupApiModel group);
 
     @DELETE("groups/{id}")
     Call<Void> deleteGroup(@Path("id") String id);
