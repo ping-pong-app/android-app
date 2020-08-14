@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
 
-        FirebaseService.getCurrentUser().ifPresent(user -> {
+        AuthService.getCurrentUser().ifPresent(user -> {
             logInSucceeded();
         });
     }

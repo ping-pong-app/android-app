@@ -5,7 +5,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Optional;
 
-public class FirebaseService {
+public class AuthService {
 
     public static Optional<FirebaseUser> getCurrentUser() {
         return Optional.ofNullable(FirebaseAuth.getInstance().getCurrentUser());

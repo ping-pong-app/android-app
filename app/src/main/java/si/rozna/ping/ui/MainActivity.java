@@ -31,7 +31,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import si.rozna.ping.R;
-import si.rozna.ping.auth.FirebaseService;
+import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.auth.LoginActivity;
 import si.rozna.ping.ui.drawer.groups.GroupsFragment;
 import si.rozna.ping.ui.drawer.groups.NewGroupFragment;
@@ -110,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         
-        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        Optional<FirebaseUser> user = AuthService.getCurrentUser();
         if(user.isPresent()) {
 
-            String username = FirebaseService.getCurrentUserDisplayName().orElse("Welcome");
-            String email = FirebaseService.getCurrentUserEmail().orElse("anon@mail.com");
+            String username = AuthService.getCurrentUserDisplayName().orElse("Welcome");
+            String email = AuthService.getCurrentUserEmail().orElse("anon@mail.com");
 
             mHeaderUsername.setText(username);
             mHeaderEmail.setText(email);

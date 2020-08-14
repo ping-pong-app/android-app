@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
-import si.rozna.ping.auth.FirebaseService;
+import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.EntityIdentifier;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
@@ -103,7 +103,7 @@ public class NewGroupFragment extends Fragment {
 
     private void createGroup(){
 
-        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        Optional<FirebaseUser> user = AuthService.getCurrentUser();
 
         if(!user.isPresent()) {
             // TODO: Log out user here

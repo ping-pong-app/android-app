@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import si.rozna.ping.auth.FirebaseService;
+import si.rozna.ping.auth.AuthService;
 
 import static si.rozna.ping.Constants.AUTHORIZATION_HEADER;
 import static si.rozna.ping.Constants.BEARER_TOKEN_PREFIX;
@@ -27,7 +27,7 @@ public class AuthInterceptor implements Interceptor {
         Request request = chain.request();
 
         try {
-            FirebaseUser user = FirebaseService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
+            FirebaseUser user = AuthService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
 
             Task<GetTokenResult> tokenResultTask = user.getIdToken(true);
             GetTokenResult tokenResult = Tasks.await(tokenResultTask);

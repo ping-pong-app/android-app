@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
-import si.rozna.ping.auth.FirebaseService;
+import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -68,7 +68,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.groupName.setText(group.getName());
 
-        FirebaseUser user = FirebaseService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
+        FirebaseUser user = AuthService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
         holder.positionInGroup.setText(group.getOwnerId().equals(user.getUid())
                 ? "Owner"
                 : "Member");
@@ -141,7 +141,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private void deleteGroup(Group group, int position){
 
 
-        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        Optional<FirebaseUser> user = AuthService.getCurrentUser();
         if(!user.isPresent()) {
             // TODO: Log out user here
             Timber.e("User is not logged in. Logout user here!");

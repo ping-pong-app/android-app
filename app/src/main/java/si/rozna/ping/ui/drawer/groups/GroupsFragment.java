@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.RecyclerViewAdapter;
-import si.rozna.ping.auth.FirebaseService;
+import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -96,7 +96,7 @@ public class GroupsFragment extends Fragment {
 
     private void queryGroups(){
 
-        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        Optional<FirebaseUser> user = AuthService.getCurrentUser();
         if (!user.isPresent()) {
             // TODO: Log out user here
             Timber.e("User is not logged in. Logout user here!");
