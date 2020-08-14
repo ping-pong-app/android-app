@@ -17,18 +17,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
+import si.rozna.ping.models.EntityIdentifier;
 import si.rozna.ping.models.Group;
-import si.rozna.ping.models.Mapper;
-import si.rozna.ping.models.dto.GroupDTO;
-import si.rozna.ping.rest.RestAPI;
+import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.MainActivity;
 import timber.log.Timber;
@@ -39,7 +35,7 @@ public class NewGroupFragment extends Fragment {
     private TextView groupNameAdditionalInfo;
 
     /* REST */
-    private RestAPI mRestClient = ServiceGenerator.createService(RestAPI.class);
+    private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
 
     public NewGroupFragment() {
@@ -115,39 +111,29 @@ public class NewGroupFragment extends Fragment {
         }
 
         Group group = new Group();
-        group.setOwnerId(user.getUid());
         group.setName(groupName);
 
-        user.getIdToken(true).addOnCompleteListener(task -> {
+        groupsApi.createGroup(group).enqueue(new Callback<EntityIdentifier>() {
+            @Override
+            public void onResponse(Call<EntityIdentifier> call, Response<EntityIdentifier> response) {
+                if(response.isSuccessful()) {
 
-            String token = task.getResult().getToken();
+                    ((MainActivity)getActivity()).hideSoftKeyboard();
 
-            mRestClient.createGroup(Constants.BEARER_TOKEN_PREFIX + token, Mapper.mapGroupToDTO(group)).enqueue(new Callback<GroupDTO>() {
-                @Override
-                public void onResponse(Call<GroupDTO> call, Response<GroupDTO> response) {
-
-                    if(response.isSuccessful()) {
-
-                        ((MainActivity)getActivity()).hideSoftKeyboard();
-
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragment_container, new GroupsFragment());
-                        transaction.commit();
-
-
-                    }else {
-                        // TODO: Tell user smth went wrong
-                        Timber.e(response.message());
-                    }
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, new GroupsFragment());
+                    transaction.commit();
+                }else {
+                    // TODO: Tell user smth went wrong
+                    Timber.e(response.message());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<GroupDTO> call, Throwable t) {
-                    Timber.e(t);
-                }
-            });
-        }).addOnFailureListener(e -> Timber.i("Failed to retrieve token"));
-
+            @Override
+            public void onFailure(Call<EntityIdentifier> call, Throwable t) {
+                Timber.e(t);
+            }
+        });
     }
 
 }

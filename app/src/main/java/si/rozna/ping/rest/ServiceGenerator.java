@@ -1,7 +1,5 @@
 package si.rozna.ping.rest;
 
-import java.util.Timer;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -11,22 +9,25 @@ import timber.log.Timber;
 
 public class ServiceGenerator {
 
-    private static Retrofit.Builder retrofitBuilder;
-    private static OkHttpClient.Builder httpClient;
     private static Retrofit retrofit;
 
     static {
         init();
     }
 
-    private static void init(){
-        httpClient = new OkHttpClient.Builder();
-        retrofitBuilder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
+    private static void init() {
+        AuthInterceptor authInterceptor = new AuthInterceptor();
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(authInterceptor).build();
 
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
 
-        retrofit = retrofitBuilder.client(httpClient.build()).build();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+
         Timber.d("Retrofit built with base url: %s", retrofit.baseUrl().url().toString());
     }
 

@@ -15,17 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.models.Group;
-import si.rozna.ping.models.dto.GroupDTO;
-import si.rozna.ping.rest.RestAPI;
+import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import timber.log.Timber;
 
@@ -35,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private CardViewHolder expandedGroupHolder;
 
     /* REST */
-    private RestAPI mRestClient = ServiceGenerator.createService(RestAPI.class);
+    private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
     public RecyclerViewAdapter() {
         this.groups = new ArrayList<>();
@@ -145,32 +145,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return;
         }
 
-        user.getIdToken(true).addOnCompleteListener(task -> {
-
-            String token = task.getResult().getToken();
-
-            mRestClient.deleteGroup(Constants.BEARER_TOKEN_PREFIX + token, group.getId()).enqueue(new Callback<GroupDTO>() {
-                @Override
-                public void onResponse(Call<GroupDTO> call, Response<GroupDTO> response) {
-
-                    if(response.isSuccessful()) {
-
-                        expandedGroupHolder = null;
-                        groups.remove(position);
-                        notifyDataSetChanged();
-
-                    }else {
-                        // TODO: Tell user smth went wrong
-                        Timber.e(response.message());
-                    }
+        groupsApi.deleteGroup(group.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if(response.isSuccessful()) {
+                    expandedGroupHolder = null;
+                    groups.remove(position);
+                    notifyDataSetChanged();
+                }else {
+                    // TODO: Tell user smth went wrong
+                    Timber.e(response.message());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<GroupDTO> call, Throwable t) {
-                    Timber.e(t);
-                }
-            });
-        }).addOnFailureListener(e -> Timber.i("Failed to retrieve token"));
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable throwable) {
+                Timber.e(throwable);
+            }
+        });
     }
 
     private void closeLastExpandedGroup(){
@@ -179,8 +171,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             expandedGroupHolder.expendableView.setVisibility(View.GONE);
             expandedGroupHolder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
         }
-
     }
-
 
 }

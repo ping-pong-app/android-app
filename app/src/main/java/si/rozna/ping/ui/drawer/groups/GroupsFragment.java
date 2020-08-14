@@ -17,19 +17,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.RecyclerViewAdapter;
 import si.rozna.ping.models.Group;
-import si.rozna.ping.models.Mapper;
-import si.rozna.ping.models.dto.GroupDTO;
-import si.rozna.ping.rest.RestAPI;
+import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.MainActivity;
 import timber.log.Timber;
@@ -48,7 +44,7 @@ public class GroupsFragment extends Fragment {
     private FloatingActionButton fabNewGroup;
 
     /* REST */
-    private RestAPI mRestClient = ServiceGenerator.createService(RestAPI.class);
+    private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
     /* Variables */
     private boolean canRefresh;
@@ -107,41 +103,22 @@ public class GroupsFragment extends Fragment {
             return;
         }
 
-
-        user.getIdToken(true).addOnCompleteListener(task -> {
-
-            String token = task.getResult().getToken();
-
-            mRestClient.getAllGroups(Constants.BEARER_TOKEN_PREFIX + token).enqueue(new Callback<List<GroupDTO>>() {
-                @Override
-                public void onResponse(Call<List<GroupDTO>> call, Response<List<GroupDTO>> response) {
-
-                    if(response.isSuccessful()) {
-
-                        List<GroupDTO> groupDTOs = response.body();
-
-                        if(groupDTOs != null && groupDTOs.size() > 0) {
-
-                            List<Group> groups = new ArrayList<>();
-
-                            for (GroupDTO groupDTO : groupDTOs) {
-                                groups.add(Mapper.mapGroupFromDTO(groupDTO));
-                            }
-                            recyclerViewAdapter.setGroups(groups);
-                            showContent();
-                        }
-
-                    }else {
-                        Timber.e(response.message());
-                    }
+        groupsApi.getAllGroups().enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    recyclerViewAdapter.setGroups(response.body());
+                    showContent();
+                }else {
+                    Timber.e(response.message());
                 }
+            }
 
-                @Override
-                public void onFailure(Call<List<GroupDTO>> call, Throwable t) {
-                    Timber.e(t);
-                }
-            });
-        }).addOnFailureListener(e -> Timber.i("Failed to retrieve token"));
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+                Timber.e(t);
+            }
+        });
     }
 
 

@@ -6,6 +6,7 @@ public class Constants {
     public static String BASE_URL = "https://test.mjamsek.com/v1/";
 
     /* Rest API */
+    public static String AUTHORIZATION_HEADER = "Authorization";
     public static String BEARER_TOKEN_PREFIX = "Bearer ";
 
     /* Group management */
