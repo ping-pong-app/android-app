@@ -29,7 +29,7 @@ public class ProfileFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        FirebaseUser user = AuthService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
+        /*FirebaseUser user = AuthService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
 
         UserProfileChangeRequest req = new UserProfileChangeRequest.Builder()
                 .setDisplayName("New Display name")
@@ -43,7 +43,7 @@ public class ProfileFragment extends Fragment {
         }).addOnFailureListener(e -> {
 
         });
-
+        */
     }
 
     @Override
