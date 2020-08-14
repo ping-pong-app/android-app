@@ -6,12 +6,26 @@ import java.util.Map;
 
 public class PingMessage {
 
+    /**
+     * ID of ping entity
+     */
     private String id;
 
+    /**
+     * User data of ping initiator
+     */
     private User user;
 
+    /**
+     * Group data of pinged group
+     */
     private Group group;
 
+    /**
+     * Constructs new message instance from FCM message
+     *
+     * @param message message received from FCM broker
+     */
     public PingMessage(RemoteMessage message) {
         Map<String, String> data = message.getData();
         this.user = new User(data.get("userId"), data.get("username"));
@@ -32,7 +46,15 @@ public class PingMessage {
     }
 
     public static class User {
+
+        /**
+         * User id
+         */
         private String id;
+
+        /**
+         * User username
+         */
         private String username;
 
         private User(String id, String username) {
@@ -50,7 +72,15 @@ public class PingMessage {
     }
 
     public static class Group {
+
+        /**
+         * Group id
+         */
         private String id;
+
+        /**
+         * Group name
+         */
         private String name;
 
         private Group(String id, String groupName) {

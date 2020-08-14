@@ -1,5 +1,9 @@
 <resources>
 
+    <!--  Config  -->
+    <string name="ping_channel">ping-channel</string>
+    <string name="ping_channel_desc">Ping Channel for Push Notifications</string>
+
     <!-- General -->
     <string name="app_name">Ping</string>
     <string name="ping">Ping</string>
