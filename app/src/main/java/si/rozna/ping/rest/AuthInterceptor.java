@@ -2,7 +2,6 @@ package si.rozna.ping.rest;
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
@@ -14,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+import si.rozna.ping.auth.FirebaseService;
 
 import static si.rozna.ping.Constants.AUTHORIZATION_HEADER;
 import static si.rozna.ping.Constants.BEARER_TOKEN_PREFIX;
@@ -27,10 +27,7 @@ public class AuthInterceptor implements Interceptor {
         Request request = chain.request();
 
         try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null) {
-                throw new RuntimeException("User is not logged in!");
-            }
+            FirebaseUser user = FirebaseService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
 
             Task<GetTokenResult> tokenResultTask = user.getIdToken(true);
             GetTokenResult tokenResult = Tasks.await(tokenResultTask);

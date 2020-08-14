@@ -12,18 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
+import si.rozna.ping.auth.FirebaseService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -66,7 +67,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Group group = groups.get(position);
 
         holder.groupName.setText(group.getName());
-        holder.positionInGroup.setText(group.getOwnerId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+        FirebaseUser user = FirebaseService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
+        holder.positionInGroup.setText(group.getOwnerId().equals(user.getUid())
                 ? "Owner"
                 : "Member");
 
@@ -137,9 +140,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private void deleteGroup(Group group, int position){
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(user == null) {
+        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        if(!user.isPresent()) {
             // TODO: Log out user here
             Timber.e("User is not logged in. Logout user here!");
             return;

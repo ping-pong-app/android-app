@@ -25,12 +25,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import si.rozna.ping.R;
+import si.rozna.ping.auth.FirebaseService;
 import si.rozna.ping.auth.LoginActivity;
 import si.rozna.ping.ui.drawer.groups.GroupsFragment;
 import si.rozna.ping.ui.drawer.groups.NewGroupFragment;
@@ -109,14 +110,14 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
+        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        if(user.isPresent()) {
 
-            String username = user.getDisplayName();
-            String email = user.getEmail();
+            String username = FirebaseService.getCurrentUserDisplayName().orElse("Welcome");
+            String email = FirebaseService.getCurrentUserEmail().orElse("anon@mail.com");
 
-            mHeaderUsername.setText(username != null ? username : "Welcome");
-            mHeaderEmail.setText(email != null ? email : "Email");
+            mHeaderUsername.setText(username);
+            mHeaderEmail.setText(email);
 
         } else {
             Log.e(TAG, "USER DOES NOT EXIST");

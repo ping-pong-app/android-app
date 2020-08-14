@@ -14,16 +14,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.RecyclerViewAdapter;
+import si.rozna.ping.auth.FirebaseService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -95,9 +96,8 @@ public class GroupsFragment extends Fragment {
 
     private void queryGroups(){
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if(user == null) {
+        Optional<FirebaseUser> user = FirebaseService.getCurrentUser();
+        if (!user.isPresent()) {
             // TODO: Log out user here
             Timber.e("User is not logged in. Logout user here!");
             return;

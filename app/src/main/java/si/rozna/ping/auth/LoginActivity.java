@@ -2,7 +2,6 @@ package si.rozna.ping.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -10,14 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
 
-import si.rozna.ping.ui.MainActivity;
 import si.rozna.ping.R;
+import si.rozna.ping.ui.MainActivity;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity {
@@ -56,11 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                         .build(),
                 RC_SIGN_IN);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null) {
-            // User is logged in, proceed in application
+        FirebaseService.getCurrentUser().ifPresent(user -> {
             logInSucceeded();
-        }
+        });
     }
 
     @Override
