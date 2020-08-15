@@ -38,6 +38,10 @@ public abstract class PopupComponent extends UIComponent {
         popupWindow.showAtLocation(getParentView(), Gravity.NO_GRAVITY, 0, 0);
     }
 
+    public void dismiss(){
+        popupWindow.dismiss();
+    }
+
     public View getPopupView() {
         return popupView;
     }

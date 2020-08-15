@@ -31,6 +31,7 @@ import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.components.GeneralPopupComponent;
 import si.rozna.ping.ui.components.InviteMemberPopupComponent;
+import si.rozna.ping.ui.components.PopupComponent;
 import timber.log.Timber;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardViewHolder> {
@@ -38,6 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Activity parentActivity;
     private List<Group> groups;
     private CardViewHolder expandedGroupHolder;
+    private PopupComponent openedPopup;
 
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
@@ -124,9 +126,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             // Custom actions on popup
             popup.getOkButton().setOnClickListener(v -> leaveOrDeleteGroup(group, position));
-            popup.getCancelButton().setOnClickListener(v -> popup.getPopupWindow().dismiss());
+            popup.getCancelButton().setOnClickListener(v -> popup.dismiss());
 
             popup.show();
+
+            this.openedPopup = popup;
 
         });
 
@@ -173,22 +177,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         if(group.getOwnerId().equals(user.get().getUid())){
             // User is owner so delete group
-            deleteGroup(user.get(), group, position);
+            deleteGroup(group, position);
         } else {
             // User is member so leave group
-            leaveGroup(user.get(), group, position);
+            leaveGroup(group, position);
         }
     }
 
-    private void leaveGroup(@NotNull FirebaseUser user, Group group, int position){
+    private void leaveGroup(Group group, int position){
 
         groupsApi.leaveGroup(group.getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
+                    closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
                     notifyDataSetChanged();
+                    closePopup();
                 }else {
                     // TODO: Tell user smth went wrong
                     Timber.e(response.message());
@@ -202,15 +208,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
     }
 
-    private void deleteGroup(@NotNull FirebaseUser user,  Group group, int position){
+    private void deleteGroup(Group group, int position){
 
         groupsApi.deleteGroup(group.getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
+                    closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
                     notifyDataSetChanged();
+                    closePopup();
                 }else {
                     // TODO: Tell user smth went wrong
                     Timber.e(response.message());
@@ -229,6 +237,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(expandedGroupHolder != null) {
             expandedGroupHolder.expendableView.setVisibility(View.GONE);
             expandedGroupHolder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+        }
+    }
+
+    private void closePopup(){
+        if(openedPopup != null) {
+            openedPopup.dismiss();
+            openedPopup = null;
         }
     }
 
