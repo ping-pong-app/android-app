@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
-import si.rozna.ping.adapter.RecyclerViewAdapter;
+import si.rozna.ping.adapter.GroupsRecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
@@ -42,7 +42,7 @@ public class GroupsFragment extends Fragment {
 
     /* Components */
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private GroupsRecyclerViewAdapter groupsRecyclerViewAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout progressBar;
     private FloatingActionButton fabNewGroup;
@@ -84,8 +84,8 @@ public class GroupsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(getActivity());
-        recyclerView.setAdapter(recyclerViewAdapter);
+        groupsRecyclerViewAdapter = new GroupsRecyclerViewAdapter(getActivity());
+        recyclerView.setAdapter(groupsRecyclerViewAdapter);
 
         canRefresh = true;
 
@@ -115,7 +115,7 @@ public class GroupsFragment extends Fragment {
                             .map(GroupMapper::fromApiModel)
                             .collect(Collectors.toList());
 
-                    recyclerViewAdapter.setGroups(groups);
+                    groupsRecyclerViewAdapter.setGroups(groups);
                     showContent();
                 }else {
                     Timber.e(response.message());
@@ -156,7 +156,10 @@ public class GroupsFragment extends Fragment {
     private void showLoadingScreen(){
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+    }
 
+    private void showNoContent(){
+        // TODO: TBD
     }
 
 }

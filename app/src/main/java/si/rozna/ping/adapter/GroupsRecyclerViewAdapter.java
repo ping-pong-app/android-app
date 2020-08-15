@@ -34,7 +34,7 @@ import si.rozna.ping.ui.components.InviteMemberPopupComponent;
 import si.rozna.ping.ui.components.PopupComponent;
 import timber.log.Timber;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardViewHolder> {
+public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecyclerViewAdapter.CardViewHolder> {
 
     private Activity parentActivity;
     private List<Group> groups;
@@ -44,12 +44,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
-    public RecyclerViewAdapter(Activity parentActivity) {
+    public GroupsRecyclerViewAdapter(Activity parentActivity) {
         this.parentActivity = parentActivity;
         this.groups = new ArrayList<>();
     }
 
-    public RecyclerViewAdapter(Activity parentActivity, List<Group> groups) {
+    public GroupsRecyclerViewAdapter(Activity parentActivity, List<Group> groups) {
         this.parentActivity = parentActivity;
         this.groups = groups;
     }
@@ -162,6 +162,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             positionInGroup = itemView.findViewById(R.id.position_in_group);
             inviteMemberBtn = itemView.findViewById(R.id.btn_invite_member);
             deleteGroupBtn = itemView.findViewById(R.id.btn_delete_group);
+
 
         }
 
