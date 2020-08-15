@@ -106,27 +106,8 @@ public class GroupsFragment extends Fragment {
             return;
         }
 
-        groupsApi.getAllGroups().enqueue(new Callback<List<GroupApiModel>>() {
-            @Override
-            public void onResponse(Call<List<GroupApiModel>> call, Response<List<GroupApiModel>> response) {
-                if(response.isSuccessful() && response.body() != null) {
-
-                    List<Group> groups = response.body().stream()
-                            .map(GroupMapper::fromApiModel)
-                            .collect(Collectors.toList());
-
-                    recyclerViewAdapter.setGroups(groups);
-                    showContent();
-                }else {
-                    Timber.e(response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<GroupApiModel>> call, Throwable t) {
-                Timber.e(t);
-            }
-        });
+        GroupListCallback groupListCallback = new GroupListCallback(recyclerViewAdapter, progressBar, recyclerView);
+        groupsApi.getAllGroups().enqueue(groupListCallback);
     }
 
 
