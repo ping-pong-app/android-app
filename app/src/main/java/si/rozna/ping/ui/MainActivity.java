@@ -1,17 +1,11 @@
 package si.rozna.ping.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +17,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,8 +25,7 @@ import java.util.Optional;
 
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
-import si.rozna.ping.auth.LoginActivity;
-import si.rozna.ping.ui.components.GeneralPopUpComponent;
+import si.rozna.ping.ui.components.GeneralPopupComponent;
 import si.rozna.ping.ui.drawer.groups.GroupsFragment;
 import si.rozna.ping.ui.drawer.groups.NewGroupFragment;
 import si.rozna.ping.ui.drawer.home.HomeFragment;
@@ -156,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
             if(fragment instanceof NewGroupFragment){
                 switchFragment(this.prevFragment);
             }else {
-                new GeneralPopUpComponent(
+                new GeneralPopupComponent(
                         this,
                         mDrawerLayout,
-                        GeneralPopUpComponent.Action.LEAVE_APPLICATION,
+                        GeneralPopupComponent.Action.LEAVE_APPLICATION,
                         getString(R.string.warning_leave_application)
                 ).show();
             }
@@ -197,10 +189,10 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new SettingsFragment();
                 break;
             case R.id.nav_logout:
-                new GeneralPopUpComponent(
+                new GeneralPopupComponent(
                         this,
                         mDrawerLayout,
-                        GeneralPopUpComponent.Action.LOGOUT,
+                        GeneralPopupComponent.Action.LOGOUT,
                         getString(R.string.warning_logout)
                 ).show();
                 break;

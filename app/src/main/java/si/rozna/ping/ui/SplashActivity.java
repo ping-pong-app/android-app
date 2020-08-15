@@ -6,12 +6,12 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public static final int SPLASH_SCREEN_DURATION_IN_MILLIS = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,6 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-        }, SPLASH_SCREEN_DURATION_IN_MILLIS);
+        }, Constants.SPLASH_SCREEN_DURATION_IN_MILLIS);
     }
 }

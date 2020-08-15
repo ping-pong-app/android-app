@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();

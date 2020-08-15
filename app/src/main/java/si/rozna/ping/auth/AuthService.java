@@ -15,6 +15,15 @@ public class AuthService {
         return Optional.ofNullable(FirebaseAuth.getInstance().getCurrentUser());
     }
 
+    public static Optional<String> getCurrentUserId(){
+        return getCurrentUser().flatMap(user -> {
+            if (!user.getUid().isEmpty()) {
+                return Optional.of(user.getUid());
+            }
+            return Optional.empty();
+        });
+    }
+
     public static Optional<String> getCurrentUserEmail() {
         return getCurrentUser().flatMap(user -> {
             if (user.getEmail() != null && !user.getEmail().isEmpty()) {

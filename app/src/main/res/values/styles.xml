@@ -40,8 +40,9 @@
         <item name="colorTransparent">@color/colorTransparent</item>
 
         <!-- Text colors -->
-        <item name="colorTextPrimary">@color/colorWhite</item>
-        <item name="colorTextSecondary">@color/colorGrayLight</item>
+        <item name="colorTextPrimary">@color/colorTextPrimary</item>
+        <item name="colorTextSecondary">@color/colorTextSecondary</item>
+        <item name="colorTextTertiary">@color/colorTextTertiary</item>
 
         <!-- General background colors -->
         <item name="colorBackgroundPrimary">@color/colorGray</item>

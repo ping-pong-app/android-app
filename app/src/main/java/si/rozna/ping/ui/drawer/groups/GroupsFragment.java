@@ -84,7 +84,7 @@ public class GroupsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        recyclerViewAdapter = new RecyclerViewAdapter();
+        recyclerViewAdapter = new RecyclerViewAdapter(getActivity());
         recyclerView.setAdapter(recyclerViewAdapter);
 
         canRefresh = true;

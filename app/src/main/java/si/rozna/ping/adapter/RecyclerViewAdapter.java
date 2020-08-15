@@ -1,5 +1,6 @@
 package si.rozna.ping.adapter;
 
+import android.app.Activity;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -28,21 +29,26 @@ import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
+import si.rozna.ping.ui.components.GeneralPopupComponent;
+import si.rozna.ping.ui.components.InviteMemberPopupComponent;
 import timber.log.Timber;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CardViewHolder> {
 
+    private Activity parentActivity;
     private List<Group> groups;
     private CardViewHolder expandedGroupHolder;
 
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
-    public RecyclerViewAdapter() {
+    public RecyclerViewAdapter(Activity parentActivity) {
+        this.parentActivity = parentActivity;
         this.groups = new ArrayList<>();
     }
 
-    public RecyclerViewAdapter(List<Group> groups) {
+    public RecyclerViewAdapter(Activity parentActivity, List<Group> groups) {
+        this.parentActivity = parentActivity;
         this.groups = groups;
     }
 
@@ -91,17 +97,37 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        holder.deleteGroupBtn.setOnClickListener((view) -> {
-
-            // TODO: ASK USER IF HE'S SURE ABOUT DELETING
-
-            // TODO: IF OWNER DELETE -> IF MEMBER LEAVE
-
-            deleteGroup(group, position);
+        holder.inviteMemberBtn.setOnClickListener(view -> {
+            new InviteMemberPopupComponent(
+                    parentActivity,
+                    view,
+                    group
+            ).show();
         });
 
-        holder.inviteMemberBtn.setOnClickListener((view) -> {
-            Timber.d("Member invited");
+        holder.deleteGroupBtn.setOnClickListener(view -> {
+
+            // Warning message to be shown (leave - member, delete - owner)
+            String message = "Do you really want to "
+                    + (group.getOwnerId().equals(user.getUid())
+                            ? "delete"
+                            : "leave")
+                    + " '" + group.getName() + "' group?";
+
+            // Popup - Ask user if he really wants to delete/leave group
+            GeneralPopupComponent popup = new GeneralPopupComponent(
+                    parentActivity,
+                    view,
+                    GeneralPopupComponent.Action.CUSTOM,
+                    message
+            );
+
+            // Custom actions on popup
+            popup.getOkButton().setOnClickListener(v -> leaveOrDeleteGroup(group, position));
+            popup.getCancelButton().setOnClickListener(v -> popup.getPopupWindow().dismiss());
+
+            popup.show();
+
         });
 
     }
@@ -137,15 +163,46 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    private void deleteGroup(Group group, int position){
-
-
+    private void leaveOrDeleteGroup(Group group, int position){
         Optional<FirebaseUser> user = AuthService.getCurrentUser();
         if(!user.isPresent()) {
             // TODO: Log out user here
             Timber.e("User is not logged in. Logout user here!");
             return;
         }
+
+        if(group.getOwnerId().equals(user.get().getUid())){
+            // User is owner so delete group
+            deleteGroup(user.get(), group, position);
+        } else {
+            // User is member so leave group
+            leaveGroup(user.get(), group, position);
+        }
+    }
+
+    private void leaveGroup(@NotNull FirebaseUser user, Group group, int position){
+
+        groupsApi.leaveGroup(group.getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                if(response.isSuccessful()) {
+                    expandedGroupHolder = null;
+                    groups.remove(position);
+                    notifyDataSetChanged();
+                }else {
+                    // TODO: Tell user smth went wrong
+                    Timber.e(response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable throwable) {
+                Timber.e(throwable);
+            }
+        });
+    }
+
+    private void deleteGroup(@NotNull FirebaseUser user,  Group group, int position){
 
         groupsApi.deleteGroup(group.getId()).enqueue(new Callback<Void>() {
             @Override

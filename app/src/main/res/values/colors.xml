@@ -13,6 +13,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGreen">#50AA3E</color>
     <color name="colorRed">#FF0000</color>
+    <color name="colorRedWarning">#D5411B</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorDimmDark">#99000000</color>
 
@@ -25,8 +26,9 @@
     <color name="colorBlueLight">#65BAD6</color>
 
     <!-- Text colors -->
-    <color name="colorTextPrimary">#C1C1C1</color>
-    <color name="colorTextSecondary">#8E8E8E</color>
+    <color name="colorTextPrimary">#E3E1E1</color>
+    <color name="colorTextSecondary">#B6B6B6</color>
+    <color name="colorTextTertiary">#8E8E8E</color>
 
     <!-- Background colors -->
     <color name="colorBackgroundPrimary">#CCCBCB</color>

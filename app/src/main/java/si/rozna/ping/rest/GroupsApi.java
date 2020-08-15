@@ -25,4 +25,7 @@ public interface GroupsApi {
     @DELETE("groups/{id}")
     Call<Void> deleteGroup(@Path("id") String id);
 
+    @DELETE("groups/{id}/leave")
+    Call<Void> leaveGroup(@Path("id") String id);
+
 }

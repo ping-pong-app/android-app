@@ -20,6 +20,13 @@
     <string name="warning_leave_application">Do you want to leave the application?</string>
     <string name="warning_logout">Do you really want to logout?</string>
 
+    <!-- Invites -->
+    <string name="invite_member_info">Invite new member</string>
+    <string name="invite_member_email">Enter new member\'s email:</string>
+    <string name="invite_member_invite_sent_successfully">Invite sent successfully!</string>
+    <string name="invite_member_user_not_found">User with provided email does not exist</string>
+    <string name="invite_member_user_already_invited">User with provided email is already invited in group</string>
+
     <!-- Groups -->
     <string name="loading_groups">Loading groups…</string>
     <string name="no_need_to_refresh">There is no need to refresh…</string>

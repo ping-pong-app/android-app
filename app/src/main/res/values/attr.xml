@@ -6,6 +6,7 @@
     <!-- Text colors -->
     <attr name="colorTextPrimary" format="color"/>
     <attr name="colorTextSecondary" format="color"/>
+    <attr name="colorTextTertiary" format="color"/>
 
     <!-- Background colors -->
     <attr name="colorBackgroundPrimary" format="color"/>
