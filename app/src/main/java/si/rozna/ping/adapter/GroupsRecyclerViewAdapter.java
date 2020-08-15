@@ -52,6 +52,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
     public GroupsRecyclerViewAdapter(Activity parentActivity, List<Group> groups) {
         this.parentActivity = parentActivity;
         this.groups = groups;
+        notifyDataSetChanged();
     }
 
     public void setGroups(List<Group> groups){
@@ -81,23 +82,8 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
                 ? "Owner"
                 : "Member");
 
-        holder.expandViewBtn.setOnClickListener((view) -> {
-            if(holder.expendableView.getVisibility() == View.GONE){
-
-                closeLastExpandedGroup();
-
-                // Opens currently pressed group
-                TransitionManager.beginDelayedTransition(holder.mainView, new AutoTransition());
-                holder.expendableView.setVisibility(View.VISIBLE);
-                holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-
-                this.expandedGroupHolder = holder;
-            } else {
-                // Closes currently pressed group
-                holder.expendableView.setVisibility(View.GONE);
-                holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-            }
-        });
+        /* Listeners set up */
+        holder.expandViewBtn.setOnClickListener(view -> expandGroup(holder));
 
         holder.inviteMemberBtn.setOnClickListener(view -> {
             new InviteMemberPopupComponent(
@@ -142,7 +128,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
     }
 
 
-    class CardViewHolder extends RecyclerView.ViewHolder{
+    class CardViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout mainView;
         private ConstraintLayout expendableView;
@@ -231,6 +217,24 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
                 Timber.e(throwable);
             }
         });
+    }
+
+    private void expandGroup(CardViewHolder holder){
+        if(holder.expendableView.getVisibility() == View.GONE){
+
+            closeLastExpandedGroup();
+
+            // Opens currently pressed group
+            TransitionManager.beginDelayedTransition(holder.mainView, new AutoTransition());
+            holder.expendableView.setVisibility(View.VISIBLE);
+            holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+
+            this.expandedGroupHolder = holder;
+        } else {
+            // Closes currently pressed group
+            holder.expendableView.setVisibility(View.GONE);
+            holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+        }
     }
 
     private void closeLastExpandedGroup(){

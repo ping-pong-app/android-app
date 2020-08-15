@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_baseline_group_48"
             android:title="@string/nav_groups" />
         <item
+            android:id="@+id/nav_invites"
+            android:icon="@drawable/ic_round_mail_outline_48"
+            android:title="@string/nav_invites" />
+        <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_account_circle_black_48dp"
             android:title="@string/nav_profile" />

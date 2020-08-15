@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.GroupsRecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
@@ -36,8 +37,8 @@ import timber.log.Timber;
 
 public class GroupsFragment extends Fragment {
 
-    private static int TIME_BETWEEN_REFRESH_IN_MS = 10000;
 
+    /* Fragment's view */
     private View view;
 
     /* Components */
@@ -60,7 +61,8 @@ public class GroupsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
@@ -90,11 +92,8 @@ public class GroupsFragment extends Fragment {
         canRefresh = true;
 
         queryGroups();
-
         listenerSetup();
-
         showLoadingScreen();
-
     }
 
     private void queryGroups(){
@@ -141,7 +140,7 @@ public class GroupsFragment extends Fragment {
 
                 new Handler().postDelayed(() -> {
                     canRefresh = true;
-                }, TIME_BETWEEN_REFRESH_IN_MS);
+                }, Constants.TIME_BETWEEN_REFRESH_IN_MS);
             } else {
                 Snackbar.make(view, R.string.no_need_to_refresh, Snackbar.LENGTH_SHORT).show();
             }

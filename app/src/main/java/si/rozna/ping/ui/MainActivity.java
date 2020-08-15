@@ -2,7 +2,6 @@ package si.rozna.ping.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -29,12 +28,12 @@ import si.rozna.ping.ui.components.GeneralPopupComponent;
 import si.rozna.ping.ui.drawer.groups.GroupsFragment;
 import si.rozna.ping.ui.drawer.groups.NewGroupFragment;
 import si.rozna.ping.ui.drawer.home.HomeFragment;
+import si.rozna.ping.ui.drawer.invites.InvitesFragment;
 import si.rozna.ping.ui.drawer.profile.ProfileFragment;
 import si.rozna.ping.ui.drawer.settings.SettingsFragment;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final static String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
     private TextView mHeaderUsername;
@@ -42,11 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Fragment fragment;
     private Fragment prevFragment;
-
-    enum LeaveAction {
-        LEAVE_APPLICATION,
-        LOGOUT
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             mHeaderEmail.setText(email);
 
         } else {
-            Log.e(TAG, "USER DOES NOT EXIST");
+            Timber.e("USER DOES NOT EXIST");
             // Logout user
         }
 
@@ -181,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_groups:
                 fragment = new GroupsFragment();
+                break;
+            case R.id.nav_invites:
+                fragment = new InvitesFragment();
                 break;
             case R.id.nav_profile:
                 fragment = new ProfileFragment();
