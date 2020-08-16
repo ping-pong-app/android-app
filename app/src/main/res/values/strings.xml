@@ -8,6 +8,7 @@
     <string name="app_name">Ping</string>
     <string name="ping">Ping</string>
     <string name="pong">Pong</string>
+    <string name="ping_uppercase">PING</string>
 
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
