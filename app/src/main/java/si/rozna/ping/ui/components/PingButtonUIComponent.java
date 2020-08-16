@@ -14,14 +14,11 @@ import si.rozna.ping.R;
 
 public class PingButtonUIComponent extends UIComponent {
 
-    // TODO: Prevent multiple pings after button click
-
     private ProgressBar progressBar;
     private FloatingActionButton button;
 
     // Minimum time that ping button is disabled (so that animation is not done too quickly)
     private static final int TIME_BEFORE_REVERSE_ANIMATION_IN_MILLIS = 3000;
-
     // Progress bar change to be made per update (in %)
     private static final int PROGRESS_BAR_CHANGE_PER_UPDATE = 4;
     // Progress bar MIN (in %)
@@ -111,6 +108,7 @@ public class PingButtonUIComponent extends UIComponent {
 
                 // Disable button until ping action is done
                 button.setClickable(false);
+                isPingButtonPressed = false;
 
                 // Set ping button color to green
                 setButtonColor(R.color.colorGreen);

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import si.rozna.ping.R;
 import si.rozna.ping.ui.components.PingButtonUIComponent;
@@ -97,12 +98,10 @@ public class HomeFragment extends Fragment {
 
     public void updatePingButtonUI(){
 
-        // TODO: Ping action triggered more than once!!
-
         if(pingButtonComponent.isTimeToPing()){
             pingButtonComponent.setTimeToPing(false);
-            Snackbar.make(getView(), "do ping in background", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
+            Snackbar.make(Objects.requireNonNull(getView()),
+                    "do ping in background", Snackbar.LENGTH_LONG)
                     .show();
         }
 
