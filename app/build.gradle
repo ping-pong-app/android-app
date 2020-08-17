@@ -45,6 +45,11 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
 
+    /* Room database */
+    // Room Database
+    implementation "androidx.room:room-runtime:2.2.5"
+    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
     /* Timber logger */
     implementation 'com.jakewharton.timber:timber:4.7.1'
 

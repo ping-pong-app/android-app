@@ -200,8 +200,6 @@ public class HomeFragment extends Fragment {
                     "User not logged in!", Snackbar.LENGTH_LONG)
                     .show();
             Timber.e("User is not logged in!");
-
-            // Allow to ping again
             return;
         }
 
@@ -230,8 +228,6 @@ public class HomeFragment extends Fragment {
                     Timber.e("Raw: %s", response.raw());
 
                 }
-
-                // Allow to ping again
 
             }
 

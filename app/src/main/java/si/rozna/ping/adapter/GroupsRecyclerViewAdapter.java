@@ -180,7 +180,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
-                    notifyDataSetChanged();
+                    notifyItemRemoved(position);
                     closePopup();
                 }else {
                     // TODO: Tell user smth went wrong
@@ -204,7 +204,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
-                    notifyDataSetChanged();
+                    notifyItemRemoved(position);
                     closePopup();
                 }else {
                     // TODO: Tell user smth went wrong
@@ -228,7 +228,6 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             TransitionManager.beginDelayedTransition(holder.mainView, new AutoTransition());
             holder.expendableView.setVisibility(View.VISIBLE);
             holder.expandViewBtn.setBackgroundResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-
             this.expandedGroupHolder = holder;
         } else {
             // Closes currently pressed group

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -16,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import si.rozna.ping.adapter.GroupsRecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
+import si.rozna.ping.models.db.GroupDbModel;
 import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -50,6 +53,9 @@ public class GroupsFragment extends Fragment {
 
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
+
+    /* View model*/
+    private GroupsViewModel groupsViewModel;
 
     /* Variables */
     private boolean canRefresh;
@@ -86,6 +92,8 @@ public class GroupsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
+        groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
+
         groupsRecyclerViewAdapter = new GroupsRecyclerViewAdapter(getActivity());
         recyclerView.setAdapter(groupsRecyclerViewAdapter);
 
@@ -93,6 +101,7 @@ public class GroupsFragment extends Fragment {
 
         queryGroups();
         listenerSetup();
+//        observerSetup();
         showLoadingScreen();
     }
 
@@ -144,6 +153,18 @@ public class GroupsFragment extends Fragment {
             } else {
                 Snackbar.make(view, R.string.no_need_to_refresh, Snackbar.LENGTH_SHORT).show();
             }
+        });
+    }
+
+    private void observerSetup(){
+        groupsViewModel.getGroups().observe(getViewLifecycleOwner(), groupDbModels -> {
+
+            List<Group> groups = new ArrayList<>();
+            for(GroupDbModel groupDbModel : groupDbModels) {
+                groups.add(GroupMapper.fromDbModel(groupDbModel));
+            }
+
+            groupsRecyclerViewAdapter.setGroups(groups);
         });
     }
 

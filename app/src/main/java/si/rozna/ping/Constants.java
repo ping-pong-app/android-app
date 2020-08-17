@@ -3,9 +3,10 @@ package si.rozna.ping;
 public class Constants {
 
     /* Database */
-    public static final String BASE_URL = "https://test.mjamsek.com/v1/";
+    public static final String DB_NAME = "si.rozna.ping.db";
 
     /* Rest API */
+    public static final String BASE_URL = "https://test.mjamsek.com/v1/";
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
