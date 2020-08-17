@@ -157,5 +157,4 @@ public class PingButtonUIComponent extends UIComponent {
         isTimeToPing = timeToPing;
     }
 
-
 }

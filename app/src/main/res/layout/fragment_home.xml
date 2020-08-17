@@ -14,7 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="20"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/group_select_spinner_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_group_for_ping"
+            android:textColor="?attr/colorTextPrimary"
+            android:textSize="16sp"
+            />
 
         <Spinner
             android:id="@+id/group_select_spinner"
