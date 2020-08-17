@@ -152,12 +152,17 @@ public class InviteMemberPopupComponent extends PopupComponent {
                 } else {
                     int code = response.code();
 
-                    // TODO: Handle user not found
-
-                    // 409 (Conflict) - User is already invited in group
-                    if(code == 409) {
-                        warningTextView.setText(R.string.invite_member_user_already_invited);
-                        warningTextView.setVisibility(View.VISIBLE);
+                    switch (code) {
+                        case 400:
+                            // 400 (Bad Request) - There is no user with provided email
+                            warningTextView.setText(R.string.invite_member_user_not_found);
+                            warningTextView.setVisibility(View.VISIBLE);
+                            break;
+                        case 409:
+                            // 409 (Conflict) - User is already invited in group
+                            warningTextView.setText(R.string.invite_member_user_already_invited);
+                            warningTextView.setVisibility(View.VISIBLE);
+                            break;
                     }
 
                     Timber.e("Error code: " + response.code() + "\nError message: " + response.message());

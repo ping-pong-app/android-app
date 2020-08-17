@@ -99,9 +99,9 @@ public class GroupsFragment extends Fragment {
 
         canRefresh = true;
 
-        queryGroups();
+//        queryGroups();
         listenerSetup();
-//        observerSetup();
+        observerSetup();
         showLoadingScreen();
     }
 
@@ -165,6 +165,7 @@ public class GroupsFragment extends Fragment {
             }
 
             groupsRecyclerViewAdapter.setGroups(groups);
+            showContent();
         });
     }
 

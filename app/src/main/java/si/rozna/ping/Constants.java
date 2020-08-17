@@ -6,9 +6,13 @@ public class Constants {
     public static final String DB_NAME = "si.rozna.ping.db";
 
     /* Rest API */
-    public static final String BASE_URL = "https://test.mjamsek.com/v1/";
+    public static final String BASE_URL = "https://api.pinger.group/v1/";
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_TOKEN_PREFIX = "Bearer ";
+
+    /* Shared preferences */
+    public static final String SHARED_PREFERENCES_KEY = "si.rozna.ping.shared_pref";
+    public static final String SHARED_PREFERENCES_CACHE_KEY = "isCached";
 
     /* UI */
     public static final int MIN_GROUP_NAME_LENGTH = 3;

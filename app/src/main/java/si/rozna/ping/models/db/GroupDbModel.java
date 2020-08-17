@@ -3,15 +3,11 @@ package si.rozna.ping.models.db;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
-import org.jetbrains.annotations.NotNull;
 
 @Entity
-public class GroupDbModel {
+public class GroupDbModel extends EntityDbModel{
 
-    @PrimaryKey
-    @NotNull
+
     @ColumnInfo(name = "id")
     private String id;
 
@@ -33,6 +29,7 @@ public class GroupDbModel {
         this.ownerId = ownerId;
 
     }
+
 
 
     public String getId() {

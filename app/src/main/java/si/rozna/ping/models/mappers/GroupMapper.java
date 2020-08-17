@@ -22,4 +22,12 @@ public class GroupMapper {
         return group;
     }
 
+    public static GroupDbModel toDbModel(Group group) {
+        GroupDbModel groupDbModel = new GroupDbModel();
+        groupDbModel.setId(group.getId());
+        groupDbModel.setName(group.getName());
+        groupDbModel.setOwnerId(group.getOwnerId());
+        return groupDbModel;
+    }
+
 }

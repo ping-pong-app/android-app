@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import si.rozna.ping.R;
+import si.rozna.ping.ui.LoadingActivity;
 import si.rozna.ping.ui.MainActivity;
 import timber.log.Timber;
 
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void logInSucceeded(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoadingActivity.class);
         startActivity(intent);
         finish();
     }

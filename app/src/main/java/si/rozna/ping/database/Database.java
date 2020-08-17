@@ -12,7 +12,7 @@ import si.rozna.ping.Constants;
 import si.rozna.ping.database.dao.GroupDao;
 import si.rozna.ping.models.db.GroupDbModel;
 
-@androidx.room.Database(entities = {GroupDbModel.class}, version = 1, exportSchema = false)
+@androidx.room.Database(entities = {GroupDbModel.class}, version = 2, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     /* DAO references */
@@ -34,7 +34,7 @@ public abstract class Database extends RoomDatabase {
                                     context.getApplicationContext(),
                                     Database.class,
                                     Constants.DB_NAME)
-//                            .fallbackToDestructiveMigration()
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

@@ -39,7 +39,7 @@
     <!-- Groups -->
     <string name="loading_groups">Loading groups…</string>
     <string name="no_need_to_refresh">There is no need to refresh…</string>
-    <string name="select_group_for_ping">Select group for ping:</string>
+    <string name="select_group_for_ping">Selected group: </string>
 
     <!-- Authentication -->
     <string name="authentication_failed">Hmm are you sure username and password are correct?</string>
