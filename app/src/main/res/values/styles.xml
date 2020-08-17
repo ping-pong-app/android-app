@@ -58,11 +58,15 @@
 
         <!-- Navigation (sidebar) colors -->
         <item name="colorNavigationHeaderBackground">@color/colorBlue</item>
-        <item name="colorNavigationItemState">@color/menu_item_color_state</item> <!-- Not actual color: Change colors "...Item" and "...ItemSelected"-->
+        <item name="colorNavigationItemState">@color/menu_item_color_state
+        </item> <!-- Not actual color: Change colors "...Item" and "...ItemSelected"-->
         <item name="colorNavigationItem">@color/colorWhite</item>
         <item name="colorNavigationItemSelected">@color/colorBlueLight</item>
-        <item name="colorNavigationItemSelectedBackground">@color/colorNavigationItemSelectedBackground</item>
-        <item name="colorNavigationItemDrawableBackground">@drawable/menu_background_color_state</item>
+        <item name="colorNavigationItemSelectedBackground">
+            @color/colorNavigationItemSelectedBackground
+        </item>
+        <item name="colorNavigationItemDrawableBackground">@drawable/menu_background_color_state
+        </item>
 
     </style>
 
@@ -72,5 +76,14 @@
         <item name="itemTextColor">?attr/colorNavigationItemState</item>
         <item name="itemBackground">?attr/colorNavigationItemDrawableBackground</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -63,7 +63,9 @@ public class GeneralPopupComponent extends PopupComponent {
             getPopupWindow().dismiss();
             switch (action){
                 case LEAVE_APPLICATION:
-                    getParentActivity().finish();
+                    Activity activity = getParentActivity();
+                    if(activity != null)
+                        activity.finish();
                     break;
                 case LOGOUT:
                     AuthService.logout(getParentActivity());
