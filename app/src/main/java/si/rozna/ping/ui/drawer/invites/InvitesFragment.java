@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -27,12 +28,16 @@ import si.rozna.ping.models.api.InviteApiModel;
 import si.rozna.ping.models.mappers.InviteMapper;
 import si.rozna.ping.rest.InvitesApi;
 import si.rozna.ping.rest.ServiceGenerator;
+import si.rozna.ping.ui.drawer.groups.GroupsViewModel;
 import timber.log.Timber;
 
 public class InvitesFragment extends Fragment {
 
     /* REST */
     private InvitesApi invitesApi = ServiceGenerator.createService(InvitesApi.class);
+
+    /* DB */
+    private GroupsViewModel groupsViewModel;
 
     /* Fragment's view */
     private View view;
@@ -63,7 +68,9 @@ public class InvitesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        invitesRecyclerViewAdapter = new InvitesRecyclerViewAdapter(getActivity(), view);
+        groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
+
+        invitesRecyclerViewAdapter = new InvitesRecyclerViewAdapter(getActivity(), view, groupsViewModel);
         recyclerView.setAdapter(invitesRecyclerViewAdapter);
 
         queryInvites();
