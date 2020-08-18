@@ -119,6 +119,7 @@ public class NewGroupFragment extends Fragment {
 
         GroupApiModel group = new GroupApiModel();
         group.setName(groupName);
+        group.setOwnerId(user.get().getUid());
 
         groupsApi.createGroup(group).enqueue(new Callback<EntityIdentifierApiModel>() {
             @Override
