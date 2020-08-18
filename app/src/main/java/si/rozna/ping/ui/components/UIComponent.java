@@ -1,6 +1,7 @@
 package si.rozna.ping.ui.components;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 public abstract class UIComponent {
@@ -13,6 +14,7 @@ public abstract class UIComponent {
     public abstract void updateUI();
 
     public UIComponent(Activity parentActivity, View parentView) {
+        this.parentActivity = parentActivity;
         this.parentView = parentView;
     }
 

@@ -9,13 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.ui.LoadingActivity;
 import si.rozna.ping.ui.MainActivity;
+import si.rozna.ping.utils.SharedPreferencesUtil;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,27 +39,31 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // Authentication providers (Google, Facebook, Twitter,...)
-        providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.GitHubBuilder().build()
-        );
+        Optional<FirebaseUser> user = AuthService.getCurrentUser();
 
-        // Create sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setIsSmartLockEnabled(IS_SMART_LOCK_ENABLED)
-                        .setLogo(R.drawable.ic_baseline_person_pin_192)
-                        .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
-
-        AuthService.getCurrentUser().ifPresent(user -> {
+        if(user.isPresent()) {
             logInSucceeded();
-        });
+
+        } else {
+            // Authentication providers (Google, Facebook, Twitter,...)
+            providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.GoogleBuilder().build(),
+                    new AuthUI.IdpConfig.GitHubBuilder().build()
+            );
+
+            // Create sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(IS_SMART_LOCK_ENABLED)
+                            .setLogo(R.drawable.ic_baseline_person_pin_192)
+                            .setTheme(R.style.LoginTheme)
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
+        }
+
     }
 
     @Override

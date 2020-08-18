@@ -21,8 +21,11 @@ public interface GroupDao {
     @Insert
     void addGroup(GroupDbModel groupDbModel);
 
-    @Query("DELETE FROM GROUPDBMODEL WHERE id = :id")
+    @Query("DELETE FROM GroupDbModel WHERE id = :id")
     void deleteGroup(String id);
+
+    @Query("DELETE FROM GroupDbModel")
+    void dropTable();
 
 
 }

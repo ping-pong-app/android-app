@@ -35,6 +35,10 @@ public class GroupRepository {
         Database.databaseWriterExecutor.execute(() -> groupDao.deleteGroup(id));
     }
 
+    public void dropTable(){
+        Database.databaseWriterExecutor.execute(() -> groupDao.dropTable());
+    }
+
     public LiveData<List<GroupDbModel>> getGroups(){
         return groups;
     }

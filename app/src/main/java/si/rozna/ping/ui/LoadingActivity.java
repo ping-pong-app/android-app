@@ -18,6 +18,7 @@ import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.LoginActivity;
+import si.rozna.ping.database.CacheManager;
 import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
@@ -51,7 +52,14 @@ public class LoadingActivity extends AppCompatActivity {
 
         groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
 
-        SharedPreferencesUtil spu = SharedPreferencesUtil.getInstance(this);
+        cacheSetup();
+
+
+    }
+
+    private void cacheSetup(){
+
+        SharedPreferencesUtil spu = SharedPreferencesUtil.getInstance();
         String isCached = spu.getString(Constants.SHARED_PREFERENCES_CACHE_KEY);
 
         if(isCached == null || !isCached.equals(getString(R.string.yes))){
