@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +27,7 @@ import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.api.EntityIdentifierApiModel;
 import si.rozna.ping.models.api.GroupApiModel;
+import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.MainActivity;
@@ -35,6 +37,8 @@ public class NewGroupFragment extends Fragment {
 
     private String groupName;
     private TextView groupNameAdditionalInfo;
+
+    private GroupsViewModel groupsViewModel;
 
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
@@ -54,6 +58,8 @@ public class NewGroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_new_group, container, false);
+
+        groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
 
         TextInputEditText groupNameInput = view.findViewById(R.id.input_new_group_name);
         Button createGroupBtn = view.findViewById(R.id.btn_create_group);
@@ -121,9 +127,18 @@ public class NewGroupFragment extends Fragment {
 
                     ((MainActivity)getActivity()).hideSoftKeyboard();
 
+                    // Add group to DB
+                    EntityIdentifierApiModel entity = response.body();
+                    if(entity != null) {
+                        String id = entity.getId();
+                        group.setId(id);
+                    }
+                    groupsViewModel.addGroup(GroupMapper.toDbModelFromApiModel(group));
+
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, new GroupsFragment());
                     transaction.commit();
+
                 }else {
                     // TODO: Tell user smth went wrong
                     Timber.e(response.message());

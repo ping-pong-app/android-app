@@ -11,9 +11,17 @@ public class FcmService {
      * @param topics list of topics to subscribe to
      */
     public static void subscribe(String... topics) {
-        Arrays.stream(topics).forEach(topic -> {
-            FirebaseMessaging.getInstance().subscribeToTopic(topic);
-        });
+        Arrays.stream(topics).forEach(topic
+                -> FirebaseMessaging.getInstance().subscribeToTopic(topic));
+    }
+
+    /**
+     * Unsubscribe from multiple topics on FCM broker
+     * @param topics list of topics to unsubscribe from
+     */
+    public static void unsubscribe(String... topics){
+        Arrays.stream(topics).forEach(topic
+                -> FirebaseMessaging.getInstance().unsubscribeFromTopic(topic));
     }
 
 }

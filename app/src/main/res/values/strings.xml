@@ -1,9 +1,5 @@
 <resources>
 
-    <!--  Config  -->
-    <string name="ping_channel">ping-channel</string>
-    <string name="ping_channel_desc">Ping Channel for Push Notifications</string>
-
     <!-- General -->
     <string name="app_name">Ping</string>
     <string name="ping">Ping</string>
@@ -41,9 +37,6 @@
     <string name="no_need_to_refresh">There is no need to refresh…</string>
     <string name="select_group_for_ping">Selected group: </string>
 
-    <!-- Authentication -->
-    <string name="authentication_failed">Hmm are you sure username and password are correct?</string>
-
     <!-- Navigation drawer menu names -->
     <string name="nav_group_general">General</string>
     <string name="nav_group_personal">Personal</string>
@@ -54,5 +47,13 @@
     <string name="nav_settings">Settings</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_logout">Log out</string>
+
+    <!-- Authentication -->
+    <string name="authentication_failed">Hmm are you sure username and password are correct?</string>
+
+    <!-- Messaging service -->
+    <string name="ping_channel">ping-channel</string>
+    <string name="ping_channel_desc">Ping Channel for Push Notifications</string>
+    <string name="subscribe_ping_topic">PING.%1$s</string>
 
 </resources>

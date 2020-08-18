@@ -25,25 +25,32 @@ import si.rozna.ping.rest.InvitesApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.components.GeneralPopupComponent;
 import si.rozna.ping.ui.components.PopupComponent;
+import si.rozna.ping.ui.drawer.groups.GroupsViewModel;
 
 public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecyclerViewAdapter.CardViewHolder> {
 
     /* REST */
     private InvitesApi invitesApi = ServiceGenerator.createService(InvitesApi.class);
 
+    /* DB */
+    private GroupsViewModel groupsViewModel;
+
     private Activity parentActivity;
     private View parentView;
     private List<Invite> invites;
 
-    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView) {
+
+    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, GroupsViewModel groupsViewModel) {
         this.parentActivity = parentActivity;
         this.parentView = parentView;
+        this.groupsViewModel = groupsViewModel;
         this.invites = new ArrayList<>();
     }
 
-    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, List<Invite> invites) {
+    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, GroupsViewModel groupsViewModel, List<Invite> invites) {
         this.parentActivity = parentActivity;
         this.parentView = parentView;
+        this.groupsViewModel = groupsViewModel;
         this.invites = invites;
         notifyDataSetChanged();
     }
@@ -128,8 +135,10 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 invites.remove(position);
-                notifyDataSetChanged();
+                notifyItemRemoved(position);
                 showSnackBar(String.format(parentActivity.getString(R.string.invitation_accepted), groupName));
+
+                // TODO: Add returned group to DB (cache)
             }
 
             @Override
@@ -144,7 +153,7 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 invites.remove(position);
-                notifyDataSetChanged();
+                notifyItemRemoved(position);
                 popup.dismiss();
                 showSnackBar(parentActivity.getString(R.string.invitation_rejected));
             }

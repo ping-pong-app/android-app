@@ -18,6 +18,7 @@ import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.LoginActivity;
+import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.mappers.GroupMapper;
@@ -74,10 +75,14 @@ public class LoadingActivity extends AppCompatActivity {
 
                     for(Group group : groups) {
                         groupsViewModel.addGroup(GroupMapper.toDbModel(group));
+                        FcmService.subscribe(String.format(
+                                getString(R.string.subscribe_ping_topic),
+                                group.getId()));
                     }
 
                     SharedPreferencesUtil spu = SharedPreferencesUtil.getInstance();
                     spu.putString(Constants.SHARED_PREFERENCES_CACHE_KEY, getString(R.string.yes));
+
 
                     continueToApplication();
 

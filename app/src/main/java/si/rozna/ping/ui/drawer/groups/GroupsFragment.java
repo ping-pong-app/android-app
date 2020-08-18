@@ -94,7 +94,7 @@ public class GroupsFragment extends Fragment {
 
         groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
 
-        groupsRecyclerViewAdapter = new GroupsRecyclerViewAdapter(getActivity());
+        groupsRecyclerViewAdapter = new GroupsRecyclerViewAdapter(getActivity(), groupsViewModel);
         recyclerView.setAdapter(groupsRecyclerViewAdapter);
 
         canRefresh = true;
@@ -122,6 +122,9 @@ public class GroupsFragment extends Fragment {
                     List<Group> groups = response.body().stream()
                             .map(GroupMapper::fromApiModel)
                             .collect(Collectors.toList());
+
+                    // TODO: Cache groups (update existing -> if not exist add group)
+                    //groups.forEach(group -> groupsViewModel.addGroup(GroupMapper.toDbModel(group)));
 
                     groupsRecyclerViewAdapter.setGroups(groups);
                     showContent();
@@ -159,10 +162,9 @@ public class GroupsFragment extends Fragment {
     private void observerSetup(){
         groupsViewModel.getGroups().observe(getViewLifecycleOwner(), groupDbModels -> {
 
-            List<Group> groups = new ArrayList<>();
-            for(GroupDbModel groupDbModel : groupDbModels) {
-                groups.add(GroupMapper.fromDbModel(groupDbModel));
-            }
+            List<Group> groups = groupDbModels.stream()
+                    .map(GroupMapper::fromDbModel)
+                    .collect(Collectors.toList());
 
             groupsRecyclerViewAdapter.setGroups(groups);
             showContent();

@@ -32,6 +32,7 @@ import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.components.GeneralPopupComponent;
 import si.rozna.ping.ui.components.InviteMemberPopupComponent;
 import si.rozna.ping.ui.components.PopupComponent;
+import si.rozna.ping.ui.drawer.groups.GroupsViewModel;
 import timber.log.Timber;
 
 public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecyclerViewAdapter.CardViewHolder> {
@@ -41,16 +42,21 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
     private CardViewHolder expandedGroupHolder;
     private PopupComponent openedPopup;
 
+    /* DB */
+    private GroupsViewModel groupsViewModel;
+
     /* REST */
     private GroupsApi groupsApi = ServiceGenerator.createService(GroupsApi.class);
 
-    public GroupsRecyclerViewAdapter(Activity parentActivity) {
+    public GroupsRecyclerViewAdapter(Activity parentActivity, GroupsViewModel groupsViewModel) {
         this.parentActivity = parentActivity;
+        this.groupsViewModel = groupsViewModel;
         this.groups = new ArrayList<>();
     }
 
-    public GroupsRecyclerViewAdapter(Activity parentActivity, List<Group> groups) {
+    public GroupsRecyclerViewAdapter(Activity parentActivity, GroupsViewModel groupsViewModel, List<Group> groups) {
         this.parentActivity = parentActivity;
+        this.groupsViewModel = groupsViewModel;
         this.groups = groups;
         notifyDataSetChanged();
     }
@@ -177,11 +183,14 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
+
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
                     notifyItemRemoved(position);
                     closePopup();
+
+                    groupsViewModel.deleteGroup(group.getId());
                 }else {
                     // TODO: Tell user smth went wrong
                     Timber.e(response.message());
@@ -206,6 +215,8 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
                     groups.remove(position);
                     notifyItemRemoved(position);
                     closePopup();
+
+                    groupsViewModel.deleteGroup(group.getId());
                 }else {
                     // TODO: Tell user smth went wrong
                     Timber.e(response.message());

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,16 +34,19 @@ import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.api.PingApiModel;
+import si.rozna.ping.models.db.GroupDbModel;
 import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.PingApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.components.PingButtonUIComponent;
+import si.rozna.ping.ui.drawer.groups.GroupsViewModel;
 import timber.log.Timber;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel mViewModel;
+    private GroupsViewModel groupsViewModel;
 
     /* REST */
     private PingApi pingApi = ServiceGenerator.createService(PingApi.class);
@@ -73,6 +77,8 @@ public class HomeFragment extends Fragment {
         // Bind ViewModel to fragment
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         mViewModel.getTest().observe(this, test -> { /* code goes here */ });
+
+        groupsViewModel = new ViewModelProvider(this).get(GroupsViewModel.class);
 
     }
 
@@ -109,7 +115,7 @@ public class HomeFragment extends Fragment {
         pingButtonComponent.setParentActivity(getActivity());
 
         listenerSetup();
-        populateSpinner();
+        observerSetup();
     }
 
     private void listenerSetup(){
@@ -124,33 +130,17 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void populateSpinner(){
+    private void observerSetup(){
 
-        // TODO: Get groups from DB
-        // Get groups trough API
-        groupsApi.getAllGroups().enqueue(new Callback<List<GroupApiModel>>() {
-            @Override
-            public void onResponse(Call<List<GroupApiModel>> call, Response<List<GroupApiModel>> response) {
-                if(response.isSuccessful() && response.body() != null){
-                    List<Group> groups = response.body().stream()
-                            .map(GroupMapper::fromApiModel)
-                            .collect(Collectors.toList());
+        groupsViewModel.getGroups().observe(getViewLifecycleOwner(), groupDbModels -> {
+            List<Group> groups = groupDbModels.stream()
+                    .map(GroupMapper::fromDbModel)
+                    .collect(Collectors.toList());
 
-                    groupSelectSpinnerAdapter.setGroups(groups);
-                    groupSelectSpinner.setAdapter(groupSelectSpinnerAdapter);
-                } else {
-                    // TODO: Show error screen
-                    Timber.e("Response unsuccessful");
-                    Timber.e("Code: %s", response.code());
-                    Timber.e("Message: %s", response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<GroupApiModel>> call, Throwable t) {
-                Timber.e(t);
-            }
+            groupSelectSpinnerAdapter.setGroups(groups);
+            groupSelectSpinner.setAdapter(groupSelectSpinnerAdapter);
         });
+
     }
 
     /* UI */

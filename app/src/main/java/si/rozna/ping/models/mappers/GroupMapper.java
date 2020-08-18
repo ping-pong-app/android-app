@@ -30,4 +30,14 @@ public class GroupMapper {
         return groupDbModel;
     }
 
+    public static GroupDbModel toDbModelFromApiModel(GroupApiModel group) {
+        GroupDbModel groupDbModel = new GroupDbModel();
+        groupDbModel.setId(group.getId());
+        groupDbModel.setName(group.getName());
+        groupDbModel.setOwnerId(group.getOwnerId());
+        return groupDbModel;
+    }
+
+
+
 }
