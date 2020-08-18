@@ -73,6 +73,7 @@ public class PingMessageService extends FirebaseMessagingService {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setSmallIcon(R.drawable.ic_baseline_add_24)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent).build();
     }
