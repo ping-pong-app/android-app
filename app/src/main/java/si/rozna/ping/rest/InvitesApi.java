@@ -10,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import si.rozna.ping.models.api.EntityIdentifierApiModel;
+import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.api.InviteApiModel;
 
 public interface InvitesApi {
@@ -18,10 +19,10 @@ public interface InvitesApi {
     Call<List<InviteApiModel>> getUserInvites();
 
     @POST("invites")
-    Call<EntityIdentifierApiModel> inviteUser(@Body Object invite);
+    Call<EntityIdentifierApiModel> inviteUser(@Body InviteApiModel invite);
 
     @POST("invites/{id}/accept")
-    Call<Void> acceptInvitation(@Path("id") String id);
+    Call<GroupApiModel> acceptInvitation(@Path("id") String id);
 
     @DELETE("invites/{id}/reject")
     Call<Void> rejectInvitation(@Path("id") String id);

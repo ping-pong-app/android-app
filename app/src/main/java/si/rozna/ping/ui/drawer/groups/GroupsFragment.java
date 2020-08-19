@@ -17,7 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +30,6 @@ import si.rozna.ping.adapter.GroupsRecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
-import si.rozna.ping.models.db.GroupDbModel;
 import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;

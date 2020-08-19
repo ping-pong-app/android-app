@@ -21,6 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.models.Invite;
+import si.rozna.ping.models.api.GroupApiModel;
+import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.InvitesApi;
 import si.rozna.ping.rest.ServiceGenerator;
 import si.rozna.ping.ui.components.GeneralPopupComponent;
@@ -131,18 +133,32 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
     }
 
     private void acceptInvitation(String inviteId, int position, String groupName){
-        invitesApi.acceptInvitation(inviteId).enqueue(new Callback<Void>() {
+        invitesApi.acceptInvitation(inviteId).enqueue(new Callback<GroupApiModel>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                invites.remove(position);
-                notifyItemRemoved(position);
-                showSnackBar(String.format(parentActivity.getString(R.string.invitation_accepted), groupName));
+            public void onResponse(Call<GroupApiModel> call, Response<GroupApiModel> response) {
 
-                // TODO: Add returned group to DB (cache)
+                if(response.isSuccessful()) {
+
+                    GroupApiModel acceptedGroup = response.body();
+                    if(acceptedGroup != null) {
+                        invites.remove(position);
+                        notifyItemRemoved(position);
+                        showSnackBar(String.format(parentActivity.getString(R.string.invitation_accepted), groupName));
+
+                        groupsViewModel.addGroup(GroupMapper.toDbModelFromApiModel(acceptedGroup));
+                    } else {
+                        // TODO: Smth went wrong
+                        // TODO: Invitation not accepted and also not deleted
+                    }
+
+                    // TODO: Add returned groupo DB (cache)
+                } else {
+                    // TODO: Smth went wrong
+                }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<GroupApiModel> call, Throwable t) {
                 showSnackBar(parentActivity.getString(R.string.error_excuse));
             }
         });
