@@ -84,20 +84,26 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
         holder.groupName.setText(group.getName());
 
         FirebaseUser user = AuthService.getCurrentUser().orElseThrow(() -> new RuntimeException("User is not logged in!"));
-        holder.positionInGroup.setText(group.getOwnerId().equals(user.getUid())
+        boolean isUserOwner = group.getOwnerId().equals(user.getUid());
+        holder.positionInGroup.setText(isUserOwner
                 ? "Owner"
                 : "Member");
 
         /* Listeners set up */
         holder.expandViewBtn.setOnClickListener(view -> expandGroup(holder));
 
-        holder.inviteMemberBtn.setOnClickListener(view -> {
-            new InviteMemberPopupComponent(
-                    parentActivity,
-                    view,
-                    group
-            ).show();
-        });
+        if(isUserOwner) {
+            holder.inviteMemberBtn.setVisibility(View.VISIBLE);
+            holder.inviteMemberBtn.setOnClickListener(view -> {
+                new InviteMemberPopupComponent(
+                        parentActivity,
+                        view,
+                        group
+                ).show();
+            });
+        } else {
+            holder.inviteMemberBtn.setVisibility(View.GONE);
+        }
 
         holder.deleteGroupBtn.setOnClickListener(view -> {
 
@@ -154,7 +160,6 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             positionInGroup = itemView.findViewById(R.id.position_in_group);
             inviteMemberBtn = itemView.findViewById(R.id.btn_invite_member);
             deleteGroupBtn = itemView.findViewById(R.id.btn_delete_group);
-
 
         }
 
