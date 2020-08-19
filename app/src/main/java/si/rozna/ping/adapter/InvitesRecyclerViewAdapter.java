@@ -20,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
+import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Invite;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.mappers.GroupMapper;
@@ -145,7 +146,11 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
                         notifyItemRemoved(position);
                         showSnackBar(String.format(parentActivity.getString(R.string.invitation_accepted), groupName));
 
+                        // Add received group to cache
                         groupsViewModel.addGroup(GroupMapper.toDbModelFromApiModel(acceptedGroup));
+
+                        // Subscribe on accepted group
+                        FcmService.subscribe(String.format(parentActivity.getString(R.string.subscribe_ping_topic), acceptedGroup.getId()));
                     } else {
                         // TODO: Smth went wrong
                         // TODO: Invitation not accepted and also not deleted
