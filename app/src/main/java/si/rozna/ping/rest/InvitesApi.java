@@ -10,13 +10,14 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import si.rozna.ping.models.api.EntityIdentifierApiModel;
+import si.rozna.ping.models.api.ExtendedInviteApiModel;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.api.InviteApiModel;
 
 public interface InvitesApi {
 
     @GET("invites")
-    Call<List<InviteApiModel>> getUserInvites();
+    Call<List<ExtendedInviteApiModel>> getUserInvites();
 
     @POST("invites")
     Call<EntityIdentifierApiModel> inviteUser(@Body InviteApiModel invite);

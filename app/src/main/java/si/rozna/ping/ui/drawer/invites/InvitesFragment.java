@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,7 +25,9 @@ import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.InvitesRecyclerViewAdapter;
 import si.rozna.ping.auth.AuthService;
+import si.rozna.ping.models.ExtendedInvite;
 import si.rozna.ping.models.Invite;
+import si.rozna.ping.models.api.ExtendedInviteApiModel;
 import si.rozna.ping.models.api.InviteApiModel;
 import si.rozna.ping.models.mappers.InviteMapper;
 import si.rozna.ping.rest.InvitesApi;
@@ -86,13 +90,13 @@ public class InvitesFragment extends Fragment {
             return;
         }
 
-        invitesApi.getUserInvites().enqueue(new Callback<List<InviteApiModel>>() {
+        invitesApi.getUserInvites().enqueue(new Callback<List<ExtendedInviteApiModel>>() {
             @Override
-            public void onResponse(Call<List<InviteApiModel>> call, Response<List<InviteApiModel>> response) {
+            public void onResponse(@NotNull Call<List<ExtendedInviteApiModel>> call, @NotNull Response<List<ExtendedInviteApiModel>> response) {
                 if(response.isSuccessful() && response.body() != null) {
 
-                    List<Invite> invites = response.body().stream()
-                            .map(InviteMapper::fromApiModel)
+                    List<ExtendedInvite> invites = response.body().stream()
+                            .map(InviteMapper::fromExtendedApiModel)
                             .collect(Collectors.toList());
 
                     invitesRecyclerViewAdapter.setInvites(invites);
@@ -103,7 +107,7 @@ public class InvitesFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<InviteApiModel>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<ExtendedInviteApiModel>> call, @NotNull Throwable t) {
                 Timber.e(t);
             }
         });

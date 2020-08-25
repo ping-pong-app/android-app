@@ -9,15 +9,15 @@ public class InviteApiModel extends ApiModel {
 
     @SerializedName("userId")
     @Expose
-    private String userId;
+    protected String userId;
 
     @SerializedName("groupId")
     @Expose
-    private String groupId;
+    protected String groupId;
 
     @SerializedName("email")
     @Expose
-    private String email;
+    protected String email;
 
     public String getUserId() {
         return userId;

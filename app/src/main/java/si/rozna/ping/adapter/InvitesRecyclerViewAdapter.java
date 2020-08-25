@@ -21,7 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.fcm.FcmService;
-import si.rozna.ping.models.Invite;
+import si.rozna.ping.models.ExtendedInvite;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.InvitesApi;
@@ -40,7 +40,7 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
 
     private Activity parentActivity;
     private View parentView;
-    private List<Invite> invites;
+    private List<ExtendedInvite> invites;
 
 
     public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, GroupsViewModel groupsViewModel) {
@@ -50,7 +50,7 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
         this.invites = new ArrayList<>();
     }
 
-    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, GroupsViewModel groupsViewModel, List<Invite> invites) {
+    public InvitesRecyclerViewAdapter(Activity parentActivity, View parentView, GroupsViewModel groupsViewModel, List<ExtendedInvite> invites) {
         this.parentActivity = parentActivity;
         this.parentView = parentView;
         this.groupsViewModel = groupsViewModel;
@@ -58,7 +58,7 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
         notifyDataSetChanged();
     }
 
-    public void setInvites(List<Invite> invites){
+    public void setInvites(List<ExtendedInvite> invites){
         this.invites = invites;
         notifyDataSetChanged();
     }
@@ -75,14 +75,14 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
 
-        Invite invite = invites.get(position);
+        ExtendedInvite invite = invites.get(position);
 
         holder.inviteGroupName.setText(String.format(
                 parentActivity.getString(R.string.invite_group_name),
-                invite.getGroupId())); // TODO: Set group name not id
+                invite.getGroup().getName())); // TODO: Set group name not id
         holder.inviteSenderName.setText(String.format(
                 parentActivity.getString(R.string.invite_sender_name),
-                invite.getUserId()) // TODO: Set sender name not id
+                invite.getUser().getDisplayName()) // TODO: Set sender name not id
         );
 
         // TODO: Change group id to group name
