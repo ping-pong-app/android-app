@@ -1,21 +1,18 @@
 package si.rozna.ping.fcm;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
 import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.Constants;
-import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.api.PongApiModel;
 import si.rozna.ping.rest.PingApi;
@@ -28,16 +25,20 @@ public class NotificationActionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+
+        // TODO: If user has no internet connection PONG will never be sent! -> Prevent PONG without internet connection
+
         String action = intent.getAction();
-        if(action == null)
+        Bundle extras = intent.getExtras();
+        if(action == null || extras == null)
             return;
 
-        String pingId = (String) Objects.requireNonNull(intent.getExtras()).get(Constants.EXTRAS_PING_ID);
-        Timber.i("Ping id: %s", pingId);
+        String pingId = extras.getString(Constants.EXTRAS_PING_ID);
+        Timber.i("PingId: %s", pingId);
 
         switch (action) {
             case Constants.ACTION_PONG:
-                String pongTopic = (String) Objects.requireNonNull(intent.getExtras()).get(Constants.EXTRAS_PONG_TOPIC);
+                String pongTopic = extras.getString(Constants.EXTRAS_PONG_TOPIC);
                 FcmService.subscribe(pongTopic);
                 pong(pingId, "PONG");
                 break;
@@ -50,15 +51,21 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
         }
 
-        Timber.i("MESSSSSAGEEEEEEEE ACTIOOOOOOON RECEIVED!!!!!!!!");
+        // Cancel notification
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(NotificationManager.class);
+        if (notificationManager != null) {
+            notificationManager.cancel((int) extras.get(Constants.EXTRAS_NOTIFICATION_ID));
+        }
 
     }
 
     private void pong(String pingId, String response){
 
         Optional<String> userId = AuthService.getCurrentUserId();
-        if(!userId.isPresent())
+        if(!userId.isPresent() || pingId == null)
             return;
+        Timber.i("TUKILELELELELE SE BO IZPISU PING: %s", pingId);
 
         PongApiModel pongApiModel = new PongApiModel();
         pongApiModel.setPingId(pingId);

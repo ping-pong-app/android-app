@@ -27,7 +27,8 @@ public class Constants {
     public static final String ACTION_PONG = "notification_ping_action_pong";
     public static final String ACTION_REJECT = "notification_ping_action_reject";
     public static final String EXTRAS_PING_ID = "intent_extras_ping_id";
-    public static final String EXTRAS_PONG_TOPIC= "intent_extras_pong_topic";
+    public static final String EXTRAS_PONG_TOPIC = "intent_extras_pong_topic";
+    public static final String EXTRAS_NOTIFICATION_ID = "intent_extras_notification_id";
 
 
 }
