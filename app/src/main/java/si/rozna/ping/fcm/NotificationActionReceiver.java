@@ -7,13 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import java.util.Optional;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.Constants;
-import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.models.api.PongApiModel;
 import si.rozna.ping.rest.PingApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -24,7 +21,6 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
 
         // TODO: If user has no internet connection PONG will never be sent! -> Prevent PONG without internet connection
 
@@ -62,14 +58,12 @@ public class NotificationActionReceiver extends BroadcastReceiver {
 
     private void pong(String pingId, String response){
 
-        Optional<String> userId = AuthService.getCurrentUserId();
-        if(!userId.isPresent() || pingId == null)
+        // TODO: More user friendly solution please..
+        if(pingId == null)
             return;
-        Timber.i("TUKILELELELELE SE BO IZPISU PING: %s", pingId);
 
         PongApiModel pongApiModel = new PongApiModel();
         pongApiModel.setPingId(pingId);
-        pongApiModel.setUserId(userId.get());
         pongApiModel.setResponse(response);
 
         PingApi pingApi = ServiceGenerator.createService(PingApi.class);
@@ -78,11 +72,11 @@ public class NotificationActionReceiver extends BroadcastReceiver {
             public void onResponse(Call<Void> call, Response<Void> response) {
 
                 if(response.isSuccessful()) {
-                    Utils.logResponse(response);
+                    Timber.e("PONG Request succeeded");
                 } else {
-                    Utils.logResponse(response);
+                    Timber.e("PONG Request failed");
                 }
-
+                Utils.logResponse(response);
             }
 
             @Override
