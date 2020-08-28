@@ -189,7 +189,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
-                    // TODO: Unsubscribe from group topics
+                    FcmService.unsubscribe("PING." + group.getId());
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
@@ -216,7 +216,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
-                    // TODO: Unsubscribe from group topics
+                    FcmService.unsubscribe("PING." + group.getId());
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
