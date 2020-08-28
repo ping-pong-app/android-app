@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 
 import si.rozna.ping.database.dao.GroupDao;
+import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.db.GroupDbModel;
 
 public class GroupRepository {
@@ -29,13 +30,22 @@ public class GroupRepository {
 
     public void addGroup(final GroupDbModel groupDbModel){
         Database.databaseWriterExecutor.execute(() -> groupDao.addGroup(groupDbModel));
+        FcmService.subscribeToPing(groupDbModel.getId());
     }
 
     public void deleteGroup(final String id) {
+        FcmService.unsubscribeFromPing(id);
+        FcmService.unsubscribeFromPong(id);
         Database.databaseWriterExecutor.execute(() -> groupDao.deleteGroup(id));
     }
 
     public void dropTable(){
+        if(groups != null && groups.getValue() != null) {
+            for (GroupDbModel groupDbModel : groups.getValue()) {
+                FcmService.unsubscribeFromPing(groupDbModel.getId());
+                FcmService.unsubscribeFromPong(groupDbModel.getId());
+            }
+        }
         Database.databaseWriterExecutor.execute(() -> groupDao.dropTable());
     }
 

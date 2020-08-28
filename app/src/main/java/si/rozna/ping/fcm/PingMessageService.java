@@ -24,9 +24,9 @@ import timber.log.Timber;
 
 import static si.rozna.ping.Constants.ACTION_PONG;
 import static si.rozna.ping.Constants.ACTION_REJECT;
+import static si.rozna.ping.Constants.EXTRAS_GROUP_ID;
 import static si.rozna.ping.Constants.EXTRAS_NOTIFICATION_ID;
 import static si.rozna.ping.Constants.EXTRAS_PING_ID;
-import static si.rozna.ping.Constants.EXTRAS_PONG_TOPIC;
 import static si.rozna.ping.CoreApplication.CHANNEL_ID;
 
 public class PingMessageService extends FirebaseMessagingService {
@@ -63,7 +63,7 @@ public class PingMessageService extends FirebaseMessagingService {
                     showNotification(message);
             }
         } else {
-            Timber.i("Unknown message has arrived: " + from);
+            Timber.i("Unknown message has arrived: %s", from);
         }
     }
 
@@ -93,13 +93,15 @@ public class PingMessageService extends FirebaseMessagingService {
         Intent pongActionIntent = new Intent(this, NotificationActionReceiver.class);
         pongActionIntent.setAction(ACTION_PONG);
         pongActionIntent.putExtra(EXTRAS_PING_ID, pingMessage.getId());
-        pongActionIntent.putExtra(EXTRAS_PONG_TOPIC, String.format(getString(R.string.subscribe_pong_topic), pingMessage.getGroup().getId()));
+        pongActionIntent.putExtra(EXTRAS_GROUP_ID, pingMessage.getGroup().getId());
         pongActionIntent.putExtra(EXTRAS_NOTIFICATION_ID, NOTIFICATION_ID);
         PendingIntent pongPendingIntent = PendingIntent.getBroadcast(this, 1, pongActionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Pending intent that will reject PING
         Intent rejectActionIntent = new Intent(this, NotificationActionReceiver.class);
         rejectActionIntent.setAction(ACTION_REJECT);
+        rejectActionIntent.putExtra(EXTRAS_PING_ID, pingMessage.getId());
+        rejectActionIntent.putExtra(EXTRAS_GROUP_ID, pingMessage.getGroup().getId());
         rejectActionIntent.putExtra(EXTRAS_NOTIFICATION_ID, NOTIFICATION_ID);
         PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(this, 0, rejectActionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

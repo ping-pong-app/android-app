@@ -146,9 +146,6 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
 
                         // Add received group to cache
                         groupsViewModel.addGroup(GroupMapper.toDbModelFromApiModel(acceptedGroup));
-
-                        // Subscribe on accepted group
-                        FcmService.subscribe(String.format(parentActivity.getString(R.string.subscribe_ping_topic), acceptedGroup.getId()));
                     } else {
                         // TODO: Smth went wrong
                         // TODO: Invitation not accepted and also not deleted

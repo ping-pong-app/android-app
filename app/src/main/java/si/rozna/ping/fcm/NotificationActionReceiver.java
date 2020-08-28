@@ -30,15 +30,15 @@ public class NotificationActionReceiver extends BroadcastReceiver {
             return;
 
         String pingId = extras.getString(Constants.EXTRAS_PING_ID);
-        Timber.i("PingId: %s", pingId);
+        String groupId = extras.getString(Constants.EXTRAS_GROUP_ID);
 
         switch (action) {
             case Constants.ACTION_PONG:
-                String pongTopic = extras.getString(Constants.EXTRAS_PONG_TOPIC);
-                FcmService.subscribe(pongTopic);
+                FcmService.subscribeToPong(groupId);
                 pong(pingId, "PONG");
                 break;
             case Constants.ACTION_REJECT:
+                FcmService.unsubscribeFromPong(groupId);
                 pong(pingId, "REJECT");
                 Toast.makeText(context, "You have REJECTED ping request! Shame on you!",
                         Toast.LENGTH_LONG).show();

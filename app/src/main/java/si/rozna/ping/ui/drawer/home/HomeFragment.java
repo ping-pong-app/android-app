@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<Void> call, Response<Void> response) {
 
                 if(response.isSuccessful()) {
-                    FcmService.subscribe(String.format(getString(R.string.subscribe_pong_topic), selectedGroup.getId()));
+                    FcmService.subscribeToPong(selectedGroup.getId());
                     Snackbar.make(Objects.requireNonNull(getView()),
                             "Ping successful", Snackbar.LENGTH_LONG)
                             .show();
