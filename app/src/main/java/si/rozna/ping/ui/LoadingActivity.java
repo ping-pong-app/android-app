@@ -17,7 +17,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.Constants;
 import si.rozna.ping.R;
-import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.mappers.GroupMapper;

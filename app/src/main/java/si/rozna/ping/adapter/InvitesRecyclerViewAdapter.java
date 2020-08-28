@@ -20,7 +20,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
-import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.ExtendedInvite;
 import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.mappers.GroupMapper;

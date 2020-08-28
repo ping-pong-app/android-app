@@ -26,7 +26,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
-import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;

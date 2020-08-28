@@ -10,7 +10,6 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -20,6 +19,7 @@ import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
 import si.rozna.ping.auth.LoginActivity;
+import si.rozna.ping.models.api.PongApiModel;
 import timber.log.Timber;
 
 import static si.rozna.ping.Constants.ACTION_PONG;
@@ -50,38 +50,29 @@ public class PingMessageService extends FirebaseMessagingService {
         String from = remoteMessage.getFrom();
 
         if(from.contains(Constants.MESSAGE_PONG)){
-            Timber.i("PONG MESSAGE");
-
-        } else if(from.contains(Constants.MESSAGE_PING)) {
-            Timber.i("PING MESSAGE");
-            PingMessage message = new PingMessage(remoteMessage);
+            PongMessage message = new PongMessage(remoteMessage);
             Optional<String> userId = AuthService.getCurrentUserId();
-
             // If message is from sender, don't show notification
             if(userId.isPresent()) {
                 if (!userId.get().equals(message.getUser().getId()))
-                    showNotification(message);
+                    showPongNotification(message);
             }
+
+        } else if(from.contains(Constants.MESSAGE_PING)) {
+            PingMessage message = new PingMessage(remoteMessage);
+            Optional<String> userId = AuthService.getCurrentUserId();
+            // If message is from sender, don't show notification
+            if(userId.isPresent()) {
+                if (!userId.get().equals(message.getUser().getId()))
+                    showPingNotification(message);
+            }
+
         } else {
             Timber.i("Unknown message has arrived: %s", from);
         }
     }
 
-    private void showNotification(PingMessage pingMessage) {
-
-        Notification notification = createNotification(pingMessage);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(NotificationManager.class);
-
-        if (notificationManager != null) {
-            notificationManager.notify(NOTIFICATION_ID, notification);
-            NOTIFICATION_ID += 1;
-        }
-
-    }
-
-    private Notification createNotification(PingMessage pingMessage) {
+    private void showPingNotification(PingMessage pingMessage) {
 
         // Pending intent that will lunch application
         Intent intent = new Intent(this, LoginActivity.class);
@@ -112,7 +103,7 @@ public class PingMessageService extends FirebaseMessagingService {
         String notificationMessage = String.format("User %s pinged group %s!", pingMessage.getUser().getUsername(), pingMessage.getGroup().getName());
 
         // Creates base notification
-        return new NotificationCompat.Builder(this, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.ping))
                 .setContentText(notificationMessage)
                 .setAutoCancel(true)
@@ -120,10 +111,69 @@ public class PingMessageService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_baseline_person_pin_24)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
-                .setGroup("test")
                 .addAction(R.drawable.ic_baseline_add_24, getString(R.string.reject), rejectPendingIntent)
                 .addAction(R.drawable.ic_baseline_add_24, getString(R.string.pong), pongPendingIntent)
                 .build();
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NotificationManager.class);
+
+        if (notificationManager != null) {
+            notificationManager.notify(NOTIFICATION_ID, notification);
+            NOTIFICATION_ID += 1;
+        }
+
+//        RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification_ping_preview);
+//
+//        // Creates base notification
+//        return new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setSmallIcon(R.drawable.ic_baseline_person_pin_24)
+//                .setCustomContentView(view)
+//                .setCustomBigContentView(view)
+//                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+//                .build();
+
+    }
+
+
+    private void showPongNotification(PongMessage pongMessage) {
+
+        // Pending intent that will lunch application
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        // Default sound for notifications
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        // Creates notification content text
+        // TODO: Make enum!
+        String notificationMessage = "You shouldn't see this!";
+        if(pongMessage.getResponse().equals("REJECT")) {
+            notificationMessage = String.format("User %s from group %s has REJECTED invite!", pongMessage.getUser().getUsername(), pongMessage.getGroup().getName());
+        } else if (pongMessage.getResponse().equals("PONG")) {
+            notificationMessage = String.format("User %s from group %s has PONG-ed!", pongMessage.getUser().getUsername(), pongMessage.getGroup().getName());
+        }
+
+        // Creates base notification
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(getString(R.string.ping))
+                .setContentText(notificationMessage)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setSmallIcon(R.drawable.ic_baseline_person_pin_24)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NotificationManager.class);
+
+        if (notificationManager != null) {
+            notificationManager.notify(NOTIFICATION_ID, notification);
+            NOTIFICATION_ID += 1;
+        }
 
 //        RemoteViews view = new RemoteViews(getPackageName(), R.layout.notification_ping_preview);
 //

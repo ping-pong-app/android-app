@@ -15,11 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import si.rozna.ping.Constants;
 import si.rozna.ping.R;
 import si.rozna.ping.ui.LoadingActivity;
-import si.rozna.ping.ui.MainActivity;
-import si.rozna.ping.utils.SharedPreferencesUtil;
 import timber.log.Timber;
 
 public class LoginActivity extends AppCompatActivity {
