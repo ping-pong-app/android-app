@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:internal="http://schemas.android.com/apk/prv/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:maxHeight="64dp"
+    internal:layout_maxHeight="64dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="?attr/colorBackgroundPrimary">
+
+    <ImageView
+        android:id="@+id/notification_ping_group_image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_baseline_person_pin_48"
+        android:tint="@color/colorTextSecondary"
+        />
+
+    <TextView
+        android:id="@+id/notification_ping_message1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/test_message"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        style="@style/TextAppearance.Compat.Notification"/>
+
+</LinearLayout>

@@ -33,8 +33,10 @@
             </intent-filter>
         </service>
 
+        <receiver android:enabled="true" android:name="si.rozna.ping.fcm.NotificationActionReceiver" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 </manifest>

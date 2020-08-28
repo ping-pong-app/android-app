@@ -79,23 +79,21 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
 
         holder.inviteGroupName.setText(String.format(
                 parentActivity.getString(R.string.invite_group_name),
-                invite.getGroup().getName())); // TODO: Set group name not id
+                invite.getGroup().getName()));
         holder.inviteSenderName.setText(String.format(
                 parentActivity.getString(R.string.invite_sender_name),
-                invite.getUser().getDisplayName()) // TODO: Set sender name not id
+                invite.getUser().getDisplayName())
         );
 
-        // TODO: Change group id to group name
         holder.acceptInviteBtn.setOnClickListener(view
-                -> acceptInvitation(invite.getId(), position, invite.getGroupId()));
+                -> acceptInvitation(invite.getId(), position, invite.getGroup().getName()));
 
         holder.rejectInviteBtn.setOnClickListener(view -> {
             GeneralPopupComponent popup = new GeneralPopupComponent(
                     parentActivity,
                     view,
                     GeneralPopupComponent.Action.CUSTOM,
-                    // TODO: Change id with group name
-                    String.format(parentActivity.getString(R.string.warning_reject_invitation), invite.getGroupId()));
+                    String.format(parentActivity.getString(R.string.warning_reject_invitation), invite.getGroup().getName()));
 
             popup.getOkButton().setOnClickListener(v
                     -> rejectInvitation(invite.getId(), position, popup));
@@ -156,7 +154,6 @@ public class InvitesRecyclerViewAdapter extends RecyclerView.Adapter<InvitesRecy
                         // TODO: Invitation not accepted and also not deleted
                     }
 
-                    // TODO: Add returned groupo DB (cache)
                 } else {
                     // TODO: Smth went wrong
                 }

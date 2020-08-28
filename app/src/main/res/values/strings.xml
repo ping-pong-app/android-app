@@ -5,12 +5,17 @@
     <string name="ping">Ping</string>
     <string name="pong">Pong</string>
     <string name="ping_uppercase">PING</string>
+    <string name="pong_uppercase">PONG</string>
+
+    <string name="test_message">This is a test message!</string>
 
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="back">Back</string>
     <string name="cancel">Cancel</string>
+    <string name="reject">Reject</string>
+    <string name="reject_uppercase">REJECT</string>
 
     <string name="error_excuse">We are sorry but something went wrong.</string>
 
@@ -55,5 +60,7 @@
     <string name="ping_channel">ping-channel</string>
     <string name="ping_channel_desc">Ping Channel for Push Notifications</string>
     <string name="subscribe_ping_topic">PING.%1$s</string>
+    <string name="subscribe_pong_topic">PING.REPLY.%1$s</string>
+
 
 </resources>

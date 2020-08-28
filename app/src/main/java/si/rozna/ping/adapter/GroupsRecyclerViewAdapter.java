@@ -26,6 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.auth.AuthService;
+import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.ServiceGenerator;
@@ -188,7 +189,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
-
+                    // TODO: Unsubscribe from group topics
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);
@@ -215,6 +216,7 @@ public class GroupsRecyclerViewAdapter extends RecyclerView.Adapter<GroupsRecycl
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 if(response.isSuccessful()) {
+                    // TODO: Unsubscribe from group topics
                     closeLastExpandedGroup();
                     expandedGroupHolder = null;
                     groups.remove(position);

@@ -21,4 +21,13 @@ public class Constants {
     public static final int TIME_BETWEEN_REFRESH_IN_MS = 10000;
 
 
+    /* Messaging */
+    public static final String MESSAGE_PING = "PING";
+    public static final String MESSAGE_PONG = "PING.REPLY";
+    public static final String ACTION_PONG = "notification_ping_action_pong";
+    public static final String ACTION_REJECT = "notification_ping_action_reject";
+    public static final String EXTRAS_PING_ID = "intent_extras_ping_id";
+    public static final String EXTRAS_PONG_TOPIC= "intent_extras_pong_topic";
+
+
 }

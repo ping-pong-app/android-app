@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
@@ -19,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,10 +29,9 @@ import retrofit2.Response;
 import si.rozna.ping.R;
 import si.rozna.ping.adapter.GroupSelectSpinnerAdapter;
 import si.rozna.ping.auth.AuthService;
+import si.rozna.ping.fcm.FcmService;
 import si.rozna.ping.models.Group;
-import si.rozna.ping.models.api.GroupApiModel;
 import si.rozna.ping.models.api.PingApiModel;
-import si.rozna.ping.models.db.GroupDbModel;
 import si.rozna.ping.models.mappers.GroupMapper;
 import si.rozna.ping.rest.GroupsApi;
 import si.rozna.ping.rest.PingApi;
@@ -197,11 +194,13 @@ public class HomeFragment extends Fragment {
         pingModel.setGroupId(selectedGroup.getId()); /* TODO: Set group id*/
         pingModel.setPingerId(currentUserId.get());
 
+
         pingApi.pingGroup(pingModel).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
                 if(response.isSuccessful()) {
+                    FcmService.subscribe(String.format(getString(R.string.subscribe_pong_topic), selectedGroup.getId()));
                     Snackbar.make(Objects.requireNonNull(getView()),
                             "Ping successful", Snackbar.LENGTH_LONG)
                             .show();
@@ -210,12 +209,6 @@ public class HomeFragment extends Fragment {
                     Snackbar.make(Objects.requireNonNull(getView()),
                             "Ping failed", Snackbar.LENGTH_LONG)
                             .show();
-                    // TODO: Show error screen
-                    Timber.e("Response unsuccessful");
-                    Timber.e("Code: %s", response.code());
-                    Timber.e("Message: %s", response.message());
-                    Timber.e("Body: %s", response.body() == null ? "" : response.body());
-                    Timber.e("Raw: %s", response.raw());
 
                 }
 
