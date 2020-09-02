@@ -5,6 +5,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     defaultConfig {
         applicationId "si.rozna.ping"
         minSdkVersion 28
@@ -12,17 +16,22 @@ android {
         versionCode 1
         versionName "1.0"
 
-        // Make sure this is consistent with the redirect URI used in res/raw/auth_config.json,
-        // or specify additional redirect URIs in AndroidManifest.xml
-        manifestPlaceholders = [
-                'appAuthRedirectScheme': 'si.rozna.ping'
-        ]
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            // Before building apk, you need to edit these four lines:
+            storeFile file("demonstration-key.keystore")
+            storePassword "XXXX"
+            keyAlias "demo-key"
+            keyPassword "XXXX"
+        }
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
