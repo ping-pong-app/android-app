@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'com.google.firebase.crashlytics'
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
@@ -66,11 +68,14 @@ dependencies {
     /* Material design */
     implementation 'com.google.android.material:material:1.1.0'
 
-    /* Firebase authentication */
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'  // Firebase SDK
-    implementation 'com.google.firebase:firebase-auth:19.3.2'       // Firebase Auth
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'          // Firebase Auth UI
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'  // Firebase FCM
+    /* Firebase */
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'    // Firebase Auth UI
+    implementation platform('com.google.firebase:firebase-bom:25.12.0') // Firebase BOM
+    implementation 'com.google.firebase:firebase-analytics'   // Firebase Analytics
+    implementation 'com.google.firebase:firebase-auth'        // Firebase Auth
+    implementation 'com.google.firebase:firebase-messaging'   // Firebase FCM
+    implementation 'com.google.firebase:firebase-crashlytics' // Firebase Crashlytics
+
 
     /* Retrofit REST client */
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
