@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="si.rozna.ping">
+    package="group.pinger">
 
     <application
-        android:name=".CoreApplication"
+        android:name="group.pinger.CoreApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,27 +13,27 @@
         android:theme="@style/AppTheme">
 
         <!-- Activities -->
-        <activity android:name=".ui.SplashActivity"/>
-        <activity android:name=".auth.LoginActivity">
+        <activity android:name="group.pinger.ui.SplashActivity"/>
+        <activity android:name="group.pinger.auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoadingActivity"/>
+        <activity android:name="group.pinger.ui.LoadingActivity"/>
         <activity
-            android:name=".ui.MainActivity"
+            android:name="group.pinger.ui.MainActivity"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".fcm.PingMessageService"
+            android:name="group.pinger.fcm.PingMessageService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <receiver android:enabled="true" android:name="si.rozna.ping.fcm.NotificationActionReceiver" />
+        <receiver android:enabled="true" android:name="group.pinger.fcm.NotificationActionReceiver" />
     </application>
 
 

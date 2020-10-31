@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorBackgroundPrimary"
-    tools:context=".ui.drawer.groups.GroupsFragment">
+    tools:context="group.pinger.ui.drawer.groups.GroupsFragment">
 
 
     <LinearLayout

@@ -1,6 +1,6 @@
 {
   "client_id": "ping-android",
-  "redirect_uri": "si.rozna.ping:/oauth2redirect",
+  "redirect_uri": "group.pinger:/oauth2redirect",
   "authorization_scope": "openid email profile",
   "discovery_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/.well-known/openid-configuration",
   "authorization_endpoint_uri": "https://keycloak.mjamsek.com/auth/realms/ping-pong/protocol/openid-connect/auth",

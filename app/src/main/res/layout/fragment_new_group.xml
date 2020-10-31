@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context=".ui.drawer.groups.NewGroupFragment">
+    tools:context="group.pinger.ui.drawer.groups.NewGroupFragment">
 
     <View
         android:layout_width="wrap_content"
